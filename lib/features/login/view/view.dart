@@ -2,20 +2,13 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:birdiefy/features/notifications/view/view.dart';
-import 'package:birdiefy/utils/app_theme.dart';
 import 'package:birdiefy/core/services/constants.dart';
 import 'package:birdiefy/shared/input_decoration.dart';
 import 'package:birdiefy/shared/buttons/loading_lg_button.dart';
-import 'package:birdiefy/shared/link_text_span.dart';
 import 'package:birdiefy/shared/remove_focus.dart';
 import 'package:birdiefy/features/login/bloc/login_bloc.dart';
-import 'package:birdiefy/features/register/view/view.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:pinput/pinput.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class LoginPage extends StatelessWidget implements AutoRouteWrapper {
@@ -24,10 +17,7 @@ class LoginPage extends StatelessWidget implements AutoRouteWrapper {
   static const routeName = 'login';
   @override
   Widget wrappedRoute(BuildContext context) {
-    return BlocProvider(
-      create: (_) => LoginBloc(showPhoneLogin: !kIsWeb),
-      child: this,
-    );
+    return BlocProvider(create: (_) => LoginBloc(), child: this);
   }
 
   @override
@@ -226,7 +216,7 @@ class _EmailLoginButtonState extends State<_EmailLoginButton> {
             const Duration(seconds: 2),
             () {
               context.router.removeUntil((_) => false);
-              context.router.pushNamed(state.nextRoute!);
+              context.router.pushNamed('tab');
             },
           );
         }

@@ -1,9 +1,7 @@
 // Flutter imports:
-import 'package:fiber/features/app_data/bloc/app_data_bloc.dart';
-import 'package:fiber/core/domain/entity/entity.dart';
-import 'package:fiber/utils/app_theme.dart';
+import 'package:birdiefy/core/domain/entity/enums.dart';
+import 'package:birdiefy/utils/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Package imports:
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -35,40 +33,35 @@ class LoadingIconButton extends StatelessWidget {
     Color btnColor;
     Color iconColor = AppTheme.white;
 
-    return BlocBuilder<AppDataBloc, AppDataState>(
-      buildWhen: (previous, current) => previous.themeMode != current.themeMode,
-      builder: (context, state) {
-        switch (color) {
-          case ButtonColorEnum.primary:
-            btnColor = Theme.of(context).primaryColor;
-            break;
-          case ButtonColorEnum.error:
-            btnColor = Theme.of(context).errorColor;
-            break;
-          case ButtonColorEnum.transparent:
-            btnColor = AppTheme.transparent;
-            iconColor = Theme.of(context).primaryColor;
-            break;
-          case ButtonColorEnum.grey:
-            btnColor = AppTheme.grey;
-            break;
-          default:
-            btnColor = AppTheme.adaptiveGrey(state.isDarkMode);
-            iconColor = Theme.of(context).primaryColor;
-        }
+    switch (color) {
+      case ButtonColorEnum.primary:
+        btnColor = Theme.of(context).primaryColor;
+        break;
+      case ButtonColorEnum.error:
+        btnColor = Theme.of(context).errorColor;
+        break;
+      case ButtonColorEnum.transparent:
+        btnColor = AppTheme.transparent;
+        iconColor = Theme.of(context).primaryColor;
+        break;
+      case ButtonColorEnum.grey:
+        btnColor = AppTheme.grey;
+        break;
+      default:
+        btnColor = AppTheme.lightGrey;
+        iconColor = Theme.of(context).primaryColor;
+    }
 
-        return RoundedLoadingButton(
-          key: widgetKey,
-          child: Icon(icon, color: iconColor),
-          elevation: elevation,
-          controller: controller,
-          color: btnColor,
-          valueColor: iconColor,
-          onPressed: onPressed,
-          width: width,
-          height: height,
-        );
-      },
+    return RoundedLoadingButton(
+      key: widgetKey,
+      elevation: elevation,
+      controller: controller,
+      color: btnColor,
+      valueColor: iconColor,
+      onPressed: onPressed,
+      width: width,
+      height: height,
+      child: Icon(icon, color: iconColor),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:birdiefy/routing/guard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:birdiefy/routing/router.gr.dart';
 import 'package:birdiefy/services/firebase.service.dart';
@@ -20,5 +21,5 @@ abstract class AppModule {
   FirebaseAuth get auth => FirebaseAuth.instance;
 
   @injectable
-  AppRouter get appRouter => AppRouter();
+  AppRouter get appRouter => AppRouter(authGuard: AuthGuard());
 }

@@ -2,106 +2,72 @@ part of 'register_bloc.dart';
 
 class RegisterState extends Equatable {
   const RegisterState({
-    required this.referralId,
-    required this.showPhoneRegister,
-    this.appData,
-    this.businessName = '',
-    this.company,
-    this.device,
+    this.confirmPassword = '',
     this.email = '',
+    this.firstname = '',
+    this.handicap = '',
     this.hidePassword = false,
+    this.lastname = '',
     this.notifMsg,
     this.password = '',
-    this.phoneNumber = '',
-    this.showSmsCode = false,
-    this.smsCode = '',
-    this.staff,
     this.status = Status.initial,
-    this.verificationId = '',
+    this.userType,
   });
-  final List<String>? appData;
-  final String businessName;
-  final Company? company;
-  final Device? device;
+  final String confirmPassword;
   final String email;
+  final String firstname;
+  final String handicap;
   final bool hidePassword;
+  final String lastname;
   final NotifMsg? notifMsg;
   final String password;
-  final String phoneNumber;
-  final String referralId;
-  final bool showPhoneRegister;
-  final bool showSmsCode;
-  final String smsCode;
-  final Staff? staff;
   final Status status;
-  final String verificationId;
+  final UserType? userType;
 
   RegisterState copyWith({
-    List<String>? appData,
-    String? businessName,
-    Company? company,
-    Device? device,
-    String? deviceId,
+    String? confirmPassword,
     String? email,
+    String? firstname,
+    String? handicap,
     bool? hidePassword,
+    String? lastname,
     NotifMsg? notifMsg,
     String? password,
-    String? phoneNumber,
-    String? referralId,
-    bool? showPhoneRegister,
-    bool? showSmsCode,
-    String? smsCode,
-    Staff? staff,
     Status? status,
-    String? verificationId,
+    UserType? userType,
   }) {
     return RegisterState(
-      appData: appData ?? this.appData,
-      businessName: businessName ?? this.businessName,
-      company: company ?? this.company,
-      device: device ?? this.device,
+      confirmPassword: confirmPassword ?? this.confirmPassword,
       email: email ?? this.email,
+      firstname: firstname ?? this.firstname,
+      handicap: handicap ?? this.handicap,
       hidePassword: hidePassword ?? this.hidePassword,
+      lastname: lastname ?? this.lastname,
       notifMsg: notifMsg,
       password: password ?? this.password,
-      phoneNumber: phoneNumber ?? this.phoneNumber,
-      referralId: referralId ?? this.referralId,
-      showPhoneRegister: showPhoneRegister ?? this.showPhoneRegister,
-      showSmsCode: showSmsCode ?? this.showSmsCode,
-      smsCode: smsCode ?? this.smsCode,
-      staff: staff ?? this.staff,
       status: status ?? this.status,
-      verificationId: verificationId ?? this.verificationId,
+      userType: userType ?? this.userType,
     );
   }
 
   @override
   List<Object?> get props => [
-        appData,
-        businessName,
-        company,
-        device,
+        confirmPassword,
         email,
+        firstname,
+        handicap,
         hidePassword,
+        lastname,
         notifMsg,
         password,
-        phoneNumber,
-        referralId,
-        showPhoneRegister,
-        showSmsCode,
-        smsCode,
-        staff,
         status,
-        verificationId,
+        userType,
       ];
 }
 
 enum Status {
-  emailSubmitError,
+  submitError,
   initial,
   loading,
-  registerSuccess,
-  phoneNoSubmitError,
-  resetPhoneForm,
-  unfocusPinPut,
+  submitSuccess,
 }

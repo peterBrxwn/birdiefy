@@ -2,11 +2,6 @@ const int versionCode = 56;
 const String versionShort = 'v2.1.3';
 const int charactersPerRow = 32;
 bool isTest = true;
-RegExp passwordRegExp = RegExp(
-  r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$',
-  caseSensitive: true,
-  multiLine: false,
-);
 RegExp emailRegExp = RegExp(
   r'^[\w-.]+@([\w-]+.)+[\w-]{2,4}$',
   caseSensitive: false,

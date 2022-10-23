@@ -1,4 +1,4 @@
+import 'package:birdiefy/core/domain/entity/app_error.dart';
 import 'package:dartz/dartz.dart';
-import 'package:fiber/core/domain/entity/fiber_error.dart';
 
-typedef ErrorOrType<T> = Either<FiberError, T>;
+typedef ErrorOrType<T> = Either<AppError, T>;

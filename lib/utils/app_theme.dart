@@ -1,4 +1,3 @@
-import 'dart:ui' as ui;
 // Flutter imports:
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
@@ -19,6 +18,7 @@ class AppTheme {
   static const notBlack = Color.fromRGBO(27, 27, 27, 1);
   static const iconGrey = Color.fromARGB(255, 170, 170, 170);
   static const lightGrey = Color(0xFFE0E0E0);
+  static const background = Color(0xFF222121);
   static const black = Colors.black;
 
   static const _themeGreen = Color(0xFF3bb34b);
@@ -74,12 +74,12 @@ class AppTheme {
     ),
     fillColor: MaterialStateProperty.all(_themeGreen),
   );
-  static const pageTransitionsTheme =  PageTransitionsTheme(
-      builders: {
-        TargetPlatform.iOS: NoShadowCupertinoPageTransitionsBuilder(),
-        TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
-      },
-    );
+  static const pageTransitionsTheme = PageTransitionsTheme(
+    builders: {
+      TargetPlatform.iOS: NoShadowCupertinoPageTransitionsBuilder(),
+      TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+    },
+  );
 
   static final themeDataLight = FlexThemeData.light(
     colors: _schemeLight,
@@ -102,6 +102,7 @@ class AppTheme {
     visualDensity: _visualDensity,
     platform: _platform,
     appBarBackground: notWhite,
+    background: background,
   ).copyWith(
     brightness: Brightness.light,
     checkboxTheme: _checkBoxTheme,
@@ -128,12 +129,11 @@ class AppTheme {
     visualDensity: _visualDensity,
     platform: _platform,
     appBarBackground: notBlack,
+    background: background,
   ).copyWith(
     brightness: Brightness.dark,
     checkboxTheme: _checkBoxTheme,
     useMaterial3: true,
     pageTransitionsTheme: pageTransitionsTheme,
   );
-
-  static bool get isDarkMode => ui.window.platformBrightness == Brightness.dark;
 }

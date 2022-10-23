@@ -1,4 +1,4 @@
-import 'package:fiber/utils/time_utils.dart';
+import 'package:birdiefy/utils/time_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -84,7 +84,7 @@ extension DoubleX on double {
   /// Returns the double in compact currency format.
   String toCompactCurrency(String currency) {
     if (this == 0) return '$currency 0';
-    return '$currency ' + NumberFormat.compact().format(this);
+    return '$currency ${NumberFormat.compact().format(this)}';
   }
 
   /// Returns the double in 2dp
@@ -95,7 +95,7 @@ extension DoubleX on double {
     if (this == 0) return '0';
     return toString().replaceAllMapped(
       RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-      (m) => m[1]! + ',',
+      (m) => '${m[1]!},',
     );
   }
 }
@@ -106,7 +106,7 @@ extension IntX on int {
     if (this == 0) return '0';
     return toString().replaceAllMapped(
       RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-      (m) => m[1]! + ',',
+      (m) => '${m[1]!},',
     );
   }
 }
@@ -118,11 +118,7 @@ extension DateTimeX on DateTime? {
     final dateString = toString();
 
     if (!dateString.contains('-')) return dateString.substring(0, 10);
-    return dateString.substring(8, 10) +
-        '/' +
-        dateString.substring(5, 7) +
-        '/' +
-        dateString.substring(0, 4);
+    return '${dateString.substring(8, 10)}/${dateString.substring(5, 7)}/${dateString.substring(0, 4)}';
   }
 }
 

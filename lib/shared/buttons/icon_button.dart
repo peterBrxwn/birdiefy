@@ -1,9 +1,7 @@
 // Flutter imports:
-import 'package:fiber/features/app_data/bloc/app_data_bloc.dart';
-import 'package:fiber/core/domain/entity/enums.dart';
-import 'package:fiber/utils/app_theme.dart';
+import 'package:birdiefy/core/domain/entity/enums.dart';
+import 'package:birdiefy/utils/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ThemeIconButton extends StatelessWidget {
   final ButtonColorEnum color;
@@ -27,39 +25,34 @@ class ThemeIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     Color iconColor;
 
-    return BlocBuilder<AppDataBloc, AppDataState>(
-      buildWhen: (previous, current) => previous.themeMode != current.themeMode,
-      builder: (context, state) {
-        switch (color) {
-          case ButtonColorEnum.error:
-            iconColor = Theme.of(context).errorColor;
-            break;
-          case ButtonColorEnum.primary:
-            iconColor = Theme.of(context).primaryColor;
-            break;
-          default:
-            iconColor = AppTheme.adaptiveGrey(state.isDarkMode);
-        }
+    switch (color) {
+      case ButtonColorEnum.error:
+        iconColor = Theme.of(context).errorColor;
+        break;
+      case ButtonColorEnum.primary:
+        iconColor = Theme.of(context).primaryColor;
+        break;
+      default:
+        iconColor = AppTheme.lightGrey;
+    }
 
-        final iconWidget = IconButton(
-          key: widgetKey,
-          icon: Icon(icon),
-          color: hasBg ? AppTheme.white : iconColor,
-          iconSize: isFa5 ? 18 : 24,
-          onPressed: onPressed,
-        );
-        if (!hasBg) return iconWidget;
-        return Container(
-          margin: const EdgeInsets.only(left: 10),
-          height: 48.5,
-          width: 48.5,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            color: iconColor,
-          ),
-          child: iconWidget,
-        );
-      },
+    final iconWidget = IconButton(
+      key: widgetKey,
+      icon: Icon(icon),
+      color: hasBg ? AppTheme.white : iconColor,
+      iconSize: isFa5 ? 18 : 24,
+      onPressed: onPressed,
+    );
+    if (!hasBg) return iconWidget;
+    return Container(
+      margin: const EdgeInsets.only(left: 10),
+      height: 48.5,
+      width: 48.5,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        color: iconColor,
+      ),
+      child: iconWidget,
     );
   }
 }

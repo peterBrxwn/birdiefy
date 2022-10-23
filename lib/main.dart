@@ -1,4 +1,4 @@
 import 'package:birdiefy/app.dart';
-import 'package:flutter/material.dart';
+import 'package:birdiefy/bootstrap.dart';
 
-void main() => runApp(Birdiefy());
+void main() => bootstrap(() => Birdiefy());

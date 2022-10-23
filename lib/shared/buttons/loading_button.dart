@@ -1,9 +1,7 @@
 // Flutter imports:
-import 'package:fiber/features/app_data/bloc/app_data_bloc.dart';
-import 'package:fiber/core/domain/entity/entity.dart';
-import 'package:fiber/utils/app_theme.dart';
+import 'package:birdiefy/core/domain/entity/enums.dart';
+import 'package:birdiefy/utils/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Package imports:
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -27,34 +25,29 @@ class LoadingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color btnColor;
-    return BlocBuilder<AppDataBloc, AppDataState>(
-      buildWhen: (previous, current) => previous.themeMode != current.themeMode,
-      builder: (context, state) {
-        switch (color) {
-          case ButtonColorEnum.primary:
-            btnColor = Theme.of(context).primaryColor;
-            break;
-          case ButtonColorEnum.error:
-            btnColor = Theme.of(context).errorColor;
-            break;
-          default:
-            btnColor = AppTheme.adaptiveGrey(state.isDarkMode);
-        }
+    switch (color) {
+      case ButtonColorEnum.primary:
+        btnColor = Theme.of(context).primaryColor;
+        break;
+      case ButtonColorEnum.error:
+        btnColor = Theme.of(context).errorColor;
+        break;
+      default:
+        btnColor = AppTheme.lightGrey;
+    }
 
-        return RoundedLoadingButton(
-          key: widgetKey,
-          child: Text(
-            text.toUpperCase(),
-            style: const TextStyle(color: AppTheme.white),
-          ),
-          borderRadius: 5,
-          controller: controller,
-          color: btnColor,
-          onPressed: onPressed,
-          width: 65,
-          height: 37,
-        );
-      },
+    return RoundedLoadingButton(
+      key: widgetKey,
+      borderRadius: 5,
+      controller: controller,
+      color: btnColor,
+      onPressed: onPressed,
+      width: 65,
+      height: 37,
+      child: Text(
+        text.toUpperCase(),
+        style: const TextStyle(color: AppTheme.white),
+      ),
     );
   }
 }

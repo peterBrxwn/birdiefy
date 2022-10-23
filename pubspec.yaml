@@ -30,69 +30,29 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   auto_route: ^5.0.1
-  autocomplete_textfield_ns: ^2.0.0
-  badges: ^2.0.2
-  barcode_image: ^2.0.1
-  barcode_widget: ^2.0.2
   basic_utils: ^5.4.0
-  bloc_concurrency: ^0.2.0
-  blue_thermal_printer: ^1.2.0
   cloud_firestore: ^3.1.7
-  cloud_functions: ^3.2.7
   cupertino_icons: ^1.0.4
-  currency_picker: ^2.0.8
   dartz: ^0.10.1
   dropdown_search: ^5.0.3
   equatable: ^2.0.3
-  esc_pos_bluetooth: ^0.4.1
-  expandable: ^5.0.1
-  firebase_analytics: ^9.1.0
   firebase_auth: ^3.3.6
   firebase_core: ^1.12.0
   firebase_crashlytics: ^2.5.1
-  firebase_dynamic_links: ^4.0.5
-  firebase_messaging: ^13.1.0
-  firebase_performance: ^0.8.0+5
   flex_color_scheme: ^6.0.1
-  flow_builder: ^0.0.7
   flutter:
     sdk: flutter
-  flutter_barcode_scanner: ^2.0.0
   flutter_bloc: ^8.0.1
-  flutter_full_pdf_viewer:
-    git:
-      url: https://github.com/figengungor/flutter_full_pdf_viewer.git
-      ref: null_safety_migration
-  flutter_local_notifications: ^12.0.2
-  flutter_speed_dial: ^6.2.0
   fluttertoast: ^8.0.9
   font_awesome_flutter: ^10.2.1
-  get: ^4.6.1
   get_it: ^7.2.0
   google_fonts: ^3.0.1
   injectable: ^1.5.3
-  internet_connection_checker: ^1.0.0+1
   intl: ^0.17.0
-  intl_phone_field: ^3.0.1
-  introduction_screen: ^3.0.2
   json_annotation: ^4.4.0
-  paginate_firestore: ^1.0.3+1
-  path_provider: ^2.0.8
   pattern_formatter: ^2.0.0
-  pdf: ^3.7.1
-  pinput: ^2.2.16
-  platform_device_id: ^1.0.1
-  printing: ^5.7.2
-  purchases_flutter: ^4.3.0
-  rive: ^0.9.1
   rounded_loading_button: ^2.0.9
-  settings_ui: ^2.0.2
   shared_preferences: ^2.0.13
-  time_range: ^1.0.2
-  timeago: ^3.2.2
-  toggle_switch: ^2.0.1
-  tutorial_coach_mark: ^1.2.1
-  url_launcher: ^6.0.18
 
 dev_dependencies:
   auto_route_generator: ^5.0.2

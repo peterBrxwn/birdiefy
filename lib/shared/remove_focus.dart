@@ -6,7 +6,7 @@ class RemoveFocus extends StatefulWidget {
   const RemoveFocus({required this.child, Key? key}) : super(key: key);
 
   @override
-  _RemoveFocusState createState() => _RemoveFocusState();
+  State<RemoveFocus> createState() => _RemoveFocusState();
 }
 
 class _RemoveFocusState extends State<RemoveFocus> {

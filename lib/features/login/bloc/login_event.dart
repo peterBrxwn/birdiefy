@@ -7,16 +7,6 @@ abstract class LoginEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class AppSettingsChanged extends LoginEvent {
-  const AppSettingsChanged({required this.appSettings});
-  final AppSettings appSettings;
-
-  @override
-  List<Object> get props => [appSettings];
-}
-
-class CheckIfPhoneExists extends LoginEvent {}
-
 class EmailChanged extends LoginEvent {
   const EmailChanged({required this.email});
   final String email;
@@ -27,41 +17,12 @@ class EmailChanged extends LoginEvent {
 
 class EmailFormSubmit extends LoginEvent {}
 
-class Login extends LoginEvent {
-  const Login({required this.errorStatus, required this.user});
-  final Status errorStatus;
-  final User user;
-
-  @override
-  List<Object> get props => [errorStatus, user];
-}
-
 class PasswordChanged extends LoginEvent {
   const PasswordChanged({required this.password});
   final String password;
 
   @override
   List<Object> get props => [password];
-}
-
-class PhoneNoChanged extends LoginEvent {
-  const PhoneNoChanged({required this.phoneNumber});
-  final String phoneNumber;
-
-  @override
-  List<Object> get props => [phoneNumber];
-}
-
-class PhoneFormSubmit extends LoginEvent {}
-
-class SendSMSCode extends LoginEvent {}
-
-class SmsCodeChanged extends LoginEvent {
-  const SmsCodeChanged({required this.code});
-  final String code;
-
-  @override
-  List<Object> get props => [code];
 }
 
 class SubmitError extends LoginEvent {
@@ -76,10 +37,4 @@ class SubmitError extends LoginEvent {
   List<Object> get props => [message, status];
 }
 
-class ToggleLoginForm extends LoginEvent {}
-
 class TogglePasswordVisibility extends LoginEvent {}
-
-class ToggleSmsCode extends LoginEvent {}
-
-class VerifySMSCode extends LoginEvent {}

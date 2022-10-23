@@ -1,5 +1,5 @@
 // Flutter imports:
-import 'package:fiber/utils/app_theme.dart';
+import 'package:birdiefy/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -23,16 +23,16 @@ class DeleteButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RoundedLoadingButton(
       key: widgetKey,
-      child: Text(
-        text,
-        style: const TextStyle(color: AppTheme.white),
-      ),
       borderRadius: 5,
       color: Theme.of(context).errorColor,
       width: 65,
       height: 37,
       controller: controller,
       onPressed: onPressed,
+      child: Text(
+        text,
+        style: const TextStyle(color: AppTheme.white),
+      ),
     );
   }
 }

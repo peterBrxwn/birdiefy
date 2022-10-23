@@ -1,5 +1,5 @@
 // Flutter imports:
-import 'package:fiber/utils/app_theme.dart';
+import 'package:birdiefy/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class CancelButton extends StatelessWidget {
@@ -18,11 +18,11 @@ class CancelButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       key: widgetKey,
+      onPressed: onPressed,
       child: Text(
         text,
         style: const TextStyle(color: AppTheme.grey),
       ),
-      onPressed: onPressed,
     );
   }
 }

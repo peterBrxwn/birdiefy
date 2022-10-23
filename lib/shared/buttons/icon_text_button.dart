@@ -1,6 +1,6 @@
 // Flutter imports:
-import 'package:fiber/core/domain/entity/enums.dart';
-import 'package:fiber/utils/app_theme.dart';
+import 'package:birdiefy/core/domain/entity/enums.dart';
+import 'package:birdiefy/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class IconTextButton extends StatelessWidget {
@@ -29,23 +29,25 @@ class IconTextButton extends StatelessWidget {
 
     switch (color) {
       case ButtonColorEnum.primary:
-        buttonStyle =
-            ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor);
+        buttonStyle = ElevatedButton.styleFrom(
+          backgroundColor: Theme.of(context).primaryColor,
+        );
         textStyle = Theme.of(context).textTheme.bodyText2!.copyWith(
               color: AppTheme.white,
             );
         iconColor = AppTheme.white;
         break;
       case ButtonColorEnum.error:
-        buttonStyle =
-            ElevatedButton.styleFrom(primary: Theme.of(context).errorColor);
+        buttonStyle = ElevatedButton.styleFrom(
+          backgroundColor: Theme.of(context).errorColor,
+        );
         textStyle = Theme.of(context).textTheme.bodyText2!.copyWith(
               color: AppTheme.white,
             );
         iconColor = AppTheme.white;
         break;
       default:
-        buttonStyle = ElevatedButton.styleFrom(primary: AppTheme.white);
+        buttonStyle = ElevatedButton.styleFrom(backgroundColor: AppTheme.white);
         textStyle = Theme.of(context).textTheme.bodyText2!.copyWith(
               color: Theme.of(context).primaryColor,
             );

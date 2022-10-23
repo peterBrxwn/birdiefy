@@ -1,8 +1,8 @@
-class FiberError {
+class AppError {
   String message;
   late String debugError;
 
-  FiberError({
+  AppError({
     String? debugError,
     this.message = 'Something went wrong.',
   }) {

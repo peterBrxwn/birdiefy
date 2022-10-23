@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:birdiefy/features/notifications/view/view.dart';
 import 'package:birdiefy/core/services/constants.dart';
+import 'package:birdiefy/features/register/view/view.dart';
 import 'package:birdiefy/shared/input_decoration.dart';
 import 'package:birdiefy/shared/buttons/loading_lg_button.dart';
 import 'package:birdiefy/shared/remove_focus.dart';
 import 'package:birdiefy/features/login/bloc/login_bloc.dart';
+import 'package:birdiefy/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -49,24 +51,46 @@ class _View extends StatelessWidget {
   Widget build(BuildContext context) {
     return RemoveFocus(
       child: Scaffold(
+        backgroundColor: AppTheme.background,
         body: SingleChildScrollView(
           child: Container(
-            constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height,
-            ),
+            height: MediaQuery.of(context).size.height,
+            padding: const EdgeInsets.all(20),
             child: Center(
-              child: SizedBox(
-                width: 300,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: const [
-                    SizedBox(height: 40),
-                    _Form(),
-                    SizedBox(height: 40),
-                    Text('Don\'t have an account yet?'),
-                    Text('Register here'),
-                  ],
-                ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          padding: const EdgeInsets.all(20),
+                          child: const _Form(),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    'Don\'t have an account yet?',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1!
+                        .copyWith(color: AppTheme.white),
+                  ),
+                  TextButton(
+                    onPressed: () =>
+                        context.router.pushNamed(RegisterPage.routeName),
+                    child: Text(
+                      'Register here',
+                      style: Theme.of(context).textTheme.bodyText1!,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
               ),
             ),
           ),
@@ -95,8 +119,16 @@ class _FormState extends State<_Form> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              Text(
+                'Email',
+                style: Theme.of(context).textTheme.bodyText1!,
+              ),
               const _EmailInput(),
               const SizedBox(height: 10),
+              Text(
+                'Password',
+                style: Theme.of(context).textTheme.bodyText1!,
+              ),
               const _PasswordInput(),
               const SizedBox(height: 20),
               _EmailLoginButton(formKey: _formKey)
@@ -116,11 +148,11 @@ class _EmailInput extends StatelessWidget {
     return BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
         return TextFormField(
-          initialValue: state.email,
+          style: const TextStyle(color: AppTheme.themeGreen),
           keyboardType: TextInputType.emailAddress,
-          decoration: const FiberInputDecoration(
+          decoration: AppInputDecoration(
             labelText: 'Enter your Email here...',
-            prefixIcon: Icon(Icons.email_outlined),
+            prefixIcon: Icons.email_outlined,
           ),
           validator: (value) {
             String val = value!.trim();
@@ -148,9 +180,10 @@ class _PasswordInput extends StatelessWidget {
       builder: (context, state) {
         return TextFormField(
           obscureText: state.hidePassword,
-          decoration: FiberInputDecoration(
+          style: const TextStyle(color: AppTheme.themeGreen),
+          decoration: AppInputDecoration(
             labelText: 'Enter your password here...',
-            prefixIcon: const Icon(Icons.lock_outlined),
+            prefixIcon: Icons.lock_outlined,
             suffixIcon: state.password.isNotEmpty
                 ? IconButton(
                     icon: Icon(

@@ -69,6 +69,8 @@ class SubmitError extends RegisterEvent {
   List<Object> get props => [message, status];
 }
 
+class ToggleConfirmPasswordVisibility extends RegisterEvent {}
+
 class TogglePasswordVisibility extends RegisterEvent {}
 
 class UserTypeChanged extends RegisterEvent {

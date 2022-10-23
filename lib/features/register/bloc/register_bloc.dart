@@ -24,6 +24,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<LastNameChanged>(_lastNameChanged);
     on<PasswordChanged>(_passwordChanged);
     on<SubmitError>(_submitError);
+    on<ToggleConfirmPasswordVisibility>(_toggleConfirmPasswordVisibility);
     on<TogglePasswordVisibility>(_togglePasswordVisibility);
     on<UserTypeChanged>(_userTypeChanged);
   }
@@ -122,6 +123,13 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         status: event.status,
       ),
     );
+  }
+
+  void _toggleConfirmPasswordVisibility(
+    ToggleConfirmPasswordVisibility event,
+    Emitter<RegisterState> emit,
+  ) {
+    emit(state.copyWith(hideConfirmPassword: !state.hideConfirmPassword));
   }
 
   void _togglePasswordVisibility(

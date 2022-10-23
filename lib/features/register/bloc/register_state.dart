@@ -6,7 +6,8 @@ class RegisterState extends Equatable {
     this.email = '',
     this.firstname = '',
     this.handicap = '',
-    this.hidePassword = false,
+    this.hideConfirmPassword = true,
+    this.hidePassword = true,
     this.lastname = '',
     this.notifMsg,
     this.password = '',
@@ -17,6 +18,7 @@ class RegisterState extends Equatable {
   final String email;
   final String firstname;
   final String handicap;
+  final bool hideConfirmPassword;
   final bool hidePassword;
   final String lastname;
   final NotifMsg? notifMsg;
@@ -29,6 +31,7 @@ class RegisterState extends Equatable {
     String? email,
     String? firstname,
     String? handicap,
+    bool? hideConfirmPassword,
     bool? hidePassword,
     String? lastname,
     NotifMsg? notifMsg,
@@ -41,6 +44,7 @@ class RegisterState extends Equatable {
       email: email ?? this.email,
       firstname: firstname ?? this.firstname,
       handicap: handicap ?? this.handicap,
+      hideConfirmPassword: hideConfirmPassword ?? this.hideConfirmPassword,
       hidePassword: hidePassword ?? this.hidePassword,
       lastname: lastname ?? this.lastname,
       notifMsg: notifMsg,
@@ -56,6 +60,7 @@ class RegisterState extends Equatable {
         email,
         firstname,
         handicap,
+        hideConfirmPassword,
         hidePassword,
         lastname,
         notifMsg,

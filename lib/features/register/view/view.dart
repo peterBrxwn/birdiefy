@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:birdiefy/features/login/view/view.dart';
 import 'package:birdiefy/features/notifications/view/view.dart';
 import 'package:birdiefy/core/services/constants.dart';
 import 'package:birdiefy/features/user/domain/entity/user_type.dart';
@@ -8,6 +9,7 @@ import 'package:birdiefy/shared/input_decoration.dart';
 import 'package:birdiefy/shared/buttons/loading_lg_button.dart';
 import 'package:birdiefy/shared/remove_focus.dart';
 import 'package:birdiefy/features/register/bloc/register_bloc.dart';
+import 'package:birdiefy/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
@@ -50,24 +52,48 @@ class _View extends StatelessWidget {
   Widget build(BuildContext context) {
     return RemoveFocus(
       child: Scaffold(
+        backgroundColor: AppTheme.background,
         body: SingleChildScrollView(
           child: Container(
-            constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height,
-            ),
+            height: MediaQuery.of(context).size.height,
+            padding: const EdgeInsets.all(20),
             child: Center(
-              child: SizedBox(
-                width: 300,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: const [
-                    SizedBox(height: 20),
-                    _Form(),
-                    SizedBox(height: 40),
-                    Text('Have an account already?'),
-                    Text('Login here'),
-                  ],
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  const SizedBox(height: 20),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          padding: const EdgeInsets.all(20),
+                          child: const _Form(),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    'Have an account already?',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1!
+                        .copyWith(color: AppTheme.white),
+                  ),
+                  TextButton(
+                    onPressed: () =>
+                        context.router.pushNamed(LoginPage.routeName),
+                    child: Text(
+                      'Login here',
+                      style: Theme.of(context).textTheme.bodyText1!,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
               ),
             ),
           ),
@@ -96,20 +122,48 @@ class _FormState extends State<_Form> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              Text(
+                'Email',
+                style: Theme.of(context).textTheme.bodyText1!,
+              ),
               const _EmailInput(),
               const SizedBox(height: 10),
+              Text(
+                'Password',
+                style: Theme.of(context).textTheme.bodyText1!,
+              ),
               const _PasswordInput(),
               const SizedBox(height: 10),
+              Text(
+                'Confirm password',
+                style: Theme.of(context).textTheme.bodyText1!,
+              ),
               const _ConfirmPasswordInput(),
               const SizedBox(height: 10),
+              Text(
+                'First name',
+                style: Theme.of(context).textTheme.bodyText1!,
+              ),
               const _FirstNameInput(),
               const SizedBox(height: 10),
+              Text(
+                'Last name',
+                style: Theme.of(context).textTheme.bodyText1!,
+              ),
               const _LastNameInput(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
+              Text(
+                'Handicap',
+                style: Theme.of(context).textTheme.bodyText1!,
+              ),
               const _HandicapInput(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
+              Text(
+                'You are a:',
+                style: Theme.of(context).textTheme.bodyText1!,
+              ),
               const _UserTypeInput(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               _EmailRegisterButton(formKey: _formKey)
             ],
           ),
@@ -127,15 +181,14 @@ class _EmailInput extends StatelessWidget {
     return BlocBuilder<RegisterBloc, RegisterState>(
       builder: (context, state) {
         return TextFormField(
-          initialValue: state.email,
+          style: const TextStyle(color: AppTheme.themeGreen),
           keyboardType: TextInputType.emailAddress,
-          decoration: const FiberInputDecoration(
-            labelText: 'Business Email',
-            prefixIcon: Icon(Icons.email_outlined),
+          decoration: AppInputDecoration(
+            labelText: 'Enter your email here...',
           ),
           validator: (value) {
             String val = value!.trim();
-            if (val.isEmpty) return 'Please enter your business email';
+            if (val.isEmpty) return 'Please enter your email';
             if (!emailRegExp.hasMatch(val)) {
               return 'Please enter a valid email';
             }
@@ -160,9 +213,9 @@ class _PasswordInput extends StatelessWidget {
       builder: (context, state) {
         return TextFormField(
           obscureText: state.hidePassword,
-          decoration: FiberInputDecoration(
-            labelText: 'Create a Password',
-            prefixIcon: const Icon(Icons.lock_outlined),
+          style: const TextStyle(color: AppTheme.themeGreen),
+          decoration: AppInputDecoration(
+            labelText: 'Enter your password here...',
             suffixIcon: state.password.isNotEmpty
                 ? IconButton(
                     icon: Icon(
@@ -204,14 +257,14 @@ class _ConfirmPasswordInput extends StatelessWidget {
     return BlocBuilder<RegisterBloc, RegisterState>(
       builder: (context, state) {
         return TextFormField(
-          obscureText: state.hidePassword,
-          decoration: FiberInputDecoration(
-            labelText: 'Confirm Password',
-            prefixIcon: const Icon(Icons.lock_outlined),
-            suffixIcon: state.password.isNotEmpty
+          obscureText: state.hideConfirmPassword,
+          style: const TextStyle(color: AppTheme.themeGreen),
+          decoration: AppInputDecoration(
+            labelText: 'Confirm password here...',
+            suffixIcon: state.confirmPassword.isNotEmpty
                 ? IconButton(
                     icon: Icon(
-                      state.hidePassword
+                      state.hideConfirmPassword
                           ? Icons.visibility_outlined
                           : Icons.visibility_off_outlined,
                       color: Theme.of(context).primaryColor,
@@ -219,13 +272,15 @@ class _ConfirmPasswordInput extends StatelessWidget {
                     onPressed: () {
                       context
                           .read<RegisterBloc>()
-                          .add(TogglePasswordVisibility());
+                          .add(ToggleConfirmPasswordVisibility());
                     },
                   )
                 : null,
           ),
           onChanged: (value) {
-            context.read<RegisterBloc>().add(PasswordChanged(password: value));
+            context
+                .read<RegisterBloc>()
+                .add(ConfirmPasswordChanged(password: value));
           },
           validator: (value) {
             String val = value!.trim();
@@ -248,15 +303,10 @@ class _FirstNameInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       keyboardType: TextInputType.name,
+      style: const TextStyle(color: AppTheme.themeGreen),
       textCapitalization: TextCapitalization.words,
-      decoration: const FiberInputDecoration(
-        labelText: 'First Name',
-        prefixIcon: Icon(
-          Icons.store_mall_directory_sharp,
-        ),
-        helperText: 'Only alphabets, letters, "_" and "-" are allowed.',
-      ),
-      maxLength: 99,
+      decoration:
+          AppInputDecoration(labelText: 'Enter your First Name here...'),
       validator: (value) {
         String val = value!.trim();
         if (val.isEmpty) return 'Please enter your first name';
@@ -277,15 +327,9 @@ class _LastNameInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       keyboardType: TextInputType.name,
+      style: const TextStyle(color: AppTheme.themeGreen),
       textCapitalization: TextCapitalization.words,
-      decoration: const FiberInputDecoration(
-        labelText: 'Last Name',
-        prefixIcon: Icon(
-          Icons.store_mall_directory_sharp,
-        ),
-        helperText: 'Only alphabets, letters, "_" and "-" are allowed.',
-      ),
-      maxLength: 99,
+      decoration: AppInputDecoration(labelText: 'Enter your Last Name here...'),
       validator: (value) {
         String val = value!.trim();
         if (val.isEmpty) return 'Please enter your last name';
@@ -306,14 +350,9 @@ class _HandicapInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       keyboardType: TextInputType.name,
+      style: const TextStyle(color: AppTheme.themeGreen),
       textCapitalization: TextCapitalization.words,
-      decoration: const FiberInputDecoration(
-        labelText: 'Ex. 12',
-        prefixIcon: Icon(
-          Icons.store_mall_directory_sharp,
-        ),
-      ),
-      maxLength: 99,
+      decoration: AppInputDecoration(labelText: 'Ex. 12'),
       validator: (value) {
         String val = value!.trim();
         if (val.isEmpty) return 'Please enter handicap';
@@ -332,13 +371,27 @@ class _UserTypeInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('You are a:'),
         BlocBuilder<RegisterBloc, RegisterState>(
           builder: (context, state) {
             return Row(
               children: [
-                const Text('Player'),
+                InkWell(
+                  onTap: () {
+                    context
+                        .read<RegisterBloc>()
+                        .add(const UserTypeChanged(type: UserType.player));
+                  },
+                  child: Text(
+                    'Player',
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          color: state.userType == UserType.player
+                              ? AppTheme.themeGreen
+                              : AppTheme.white,
+                        ),
+                  ),
+                ),
                 Radio<UserType>(
                   value: UserType.player,
                   groupValue: state.userType,
@@ -347,9 +400,31 @@ class _UserTypeInput extends StatelessWidget {
                         .read<RegisterBloc>()
                         .add(UserTypeChanged(type: value!));
                   },
+                  activeColor: AppTheme.white,
+                  fillColor: MaterialStateProperty.resolveWith<Color>(
+                    (Set<MaterialState> states) {
+                      return state.userType == UserType.player
+                          ? AppTheme.themeGreen
+                          : AppTheme.white;
+                    },
+                  ),
                 ),
                 const SizedBox(width: 10),
-                const Text('Coach'),
+                InkWell(
+                  onTap: () {
+                    context
+                        .read<RegisterBloc>()
+                        .add(const UserTypeChanged(type: UserType.coach));
+                  },
+                  child: Text(
+                    'Coach',
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          color: state.userType == UserType.coach
+                              ? AppTheme.themeGreen
+                              : AppTheme.white,
+                        ),
+                  ),
+                ),
                 Radio<UserType>(
                   value: UserType.coach,
                   groupValue: state.userType,
@@ -358,6 +433,14 @@ class _UserTypeInput extends StatelessWidget {
                         .read<RegisterBloc>()
                         .add(UserTypeChanged(type: value!));
                   },
+                  activeColor: AppTheme.white,
+                  fillColor: MaterialStateProperty.resolveWith<Color>(
+                    (Set<MaterialState> states) {
+                      return state.userType == UserType.coach
+                          ? AppTheme.themeGreen
+                          : AppTheme.white;
+                    },
+                  ),
                 ),
               ],
             );
@@ -413,7 +496,7 @@ class _EmailRegisterButtonState extends State<_EmailRegisterButton> {
       },
       builder: (context, state) {
         return LoadingLgButton(
-          text: 'CREATE BUSINESS',
+          text: 'Create Account',
           controller: _buttonController,
           onPressed: () {
             if (widget.formKey.currentState!.validate()) {

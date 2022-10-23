@@ -1,14 +1,31 @@
+import 'package:birdiefy/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 
-class FiberInputDecoration extends InputDecoration {
+class AppInputDecoration extends InputDecoration {
   @override
-  InputBorder get border => OutlineInputBorder(
-        borderRadius: BorderRadius.circular(5),
-        borderSide: const BorderSide(),
+  InputBorder get enabledBorder => OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(color: AppTheme.transparent),
       );
 
   @override
-  TextStyle get labelStyle => const TextStyle(fontWeight: FontWeight.normal);
+  FloatingLabelBehavior get floatingLabelBehavior =>
+      FloatingLabelBehavior.never;
+
+  @override
+  InputBorder get focusedBorder => OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(
+          color: AppTheme.themeGreen,
+        ),
+      );
+
+  @override
+  TextStyle get labelStyle => const TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.normal,
+        color: AppTheme.grey,
+      );
 
   @override
   int get helperMaxLines => 3;
@@ -16,26 +33,23 @@ class FiberInputDecoration extends InputDecoration {
   @override
   bool get isDense => true;
 
-  const FiberInputDecoration({
+  @override
+  Color get fillColor => AppTheme.background;
+
+  @override
+  bool get filled => true;
+
+  AppInputDecoration({
     required String labelText,
-    Widget? prefixIcon,
+    IconData? prefixIcon,
     Widget? suffixIcon,
     String? helperText,
   }) : super(
           helperText: helperText,
           labelText: labelText,
-          prefixIcon: prefixIcon,
+          prefixIcon: prefixIcon == null
+              ? null
+              : Icon(prefixIcon, color: AppTheme.themeGreen, size: 18),
           suffixIcon: suffixIcon,
         );
-    // return InputDecoration(
-    //   // fillColor: AppTheme.adaptiveGrey(context),
-    //   // filled: true,
-    //   helperText: helperText,
-    //   suffixIcon: suffixIcon,
-    //   prefixIcon: prefixIcon,
-    //   labelText: labelText,
-    //   // enabledBorder: OutlineInputBorder(
-    //   //   borderSide: BorderSide(color: AppTheme.adaptiveGrey(context)),
-    //   // ),
-    // );
 }

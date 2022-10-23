@@ -19,6 +19,7 @@ class Birdiefy extends StatelessWidget {
       ),
       theme: AppTheme.themeDataLight,
       darkTheme: AppTheme.themeDataDark,
+      themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
     );
   }

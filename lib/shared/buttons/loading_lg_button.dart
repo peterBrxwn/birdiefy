@@ -38,18 +38,21 @@ class LoadingLgButton extends StatelessWidget {
     }
     return RoundedLoadingButton(
       key: widgetKey,
-      borderRadius: 5,
+      borderRadius: 50,
       controller: controller,
       color: btnColor,
       onPressed: onPressed,
-      width: 150,
-      height: 50,
-      child: Text(
-        text.toUpperCase(),
-        style: Theme.of(context)
-            .textTheme
-            .subtitle1!
-            .copyWith(color: AppTheme.white),
+      width: 200,
+      height: 60,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Text(
+          text,
+          style: Theme.of(context)
+              .textTheme
+              .bodyText1!
+              .copyWith(color: AppTheme.black),
+        ),
       ),
     );
   }

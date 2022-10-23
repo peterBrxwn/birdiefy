@@ -21,7 +21,7 @@ class AppTheme {
   static const background = Color(0xFF222121);
   static const black = Colors.black;
 
-  static const _themeGreen = Color(0xFF3bb34b);
+  static const themeGreen = Color(0xFF3bb34b);
   static const _themeRed = Color(0xFFFF3636);
   static const _themeWarn = Color(0xFFF7C46C);
 
@@ -31,14 +31,14 @@ class AppTheme {
       isDarkMode ? notWhite : notBlack;
 
   static final _schemeLight = FlexSchemeColor.from(
-    primary: _themeGreen,
+    primary: themeGreen,
     secondary: _themeWarn,
     error: _themeRed,
   );
   static const _appBarElevation = 0.5;
   static const _appBarOpacity = 0.95;
   static const _swapColors = false;
-  static final _fontFamily = GoogleFonts.firaSans().fontFamily;
+  static final _fontFamily = GoogleFonts.montserrat().fontFamily;
   static const _textTheme = TextTheme(
     headline1: TextStyle(fontSize: 57, fontWeight: FontWeight.w900),
     headline2: TextStyle(fontSize: 45, fontWeight: FontWeight.w900),
@@ -49,12 +49,13 @@ class AppTheme {
     subtitle1: TextStyle(fontWeight: FontWeight.bold),
     subtitle2: TextStyle(fontWeight: FontWeight.bold),
     overline: TextStyle(fontSize: 11, letterSpacing: 0.5),
+    bodyText1: TextStyle(fontSize: 18, color: AppTheme.themeGreen),
   );
   static const _surfaceMode = FlexSurfaceMode.highBackgroundLowScaffold;
   static const _blendLevel = 15;
   static const _subThemesData = FlexSubThemesData(
     interactionEffects: true,
-    defaultRadius: 5,
+    defaultRadius: 20,
     bottomSheetRadius: 24,
     inputDecoratorBorderType: FlexInputBorderType.outline,
     inputDecoratorIsFilled: false,
@@ -70,9 +71,9 @@ class AppTheme {
   static final _platform = defaultTargetPlatform;
   static final _checkBoxTheme = CheckboxThemeData(
     side: MaterialStateBorderSide.resolveWith(
-      (_) => const BorderSide(width: 1, color: _themeGreen),
+      (_) => const BorderSide(width: 1, color: themeGreen),
     ),
-    fillColor: MaterialStateProperty.all(_themeGreen),
+    fillColor: MaterialStateProperty.all(themeGreen),
   );
   static const pageTransitionsTheme = PageTransitionsTheme(
     builders: {

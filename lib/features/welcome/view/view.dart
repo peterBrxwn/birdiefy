@@ -42,12 +42,15 @@ class _View extends StatelessWidget {
             const SizedBox(height: 50),
             Text(
               'Birdiefy',
-              style: Theme.of(context).textTheme.headline3,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline2!
+                  .copyWith(color: AppTheme.themeGreen),
             ),
             const SizedBox(height: 20),
             Text(
-              'Upgrade your golf game.',
-              style: Theme.of(context).textTheme.subtitle1,
+              'Upgrade your golf game!',
+              style: Theme.of(context).textTheme.bodyText1,
             ),
           ],
         ),

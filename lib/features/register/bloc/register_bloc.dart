@@ -66,6 +66,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         password: state.password,
       );
 
+      // send email for verification
+      // await credential.user!.sendEmailVerification();
+
       final user = User(
         dateAdded: DateTime.now(),
         email: state.email,

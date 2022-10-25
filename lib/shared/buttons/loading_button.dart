@@ -50,7 +50,7 @@ class LoadingButton extends StatelessWidget {
           text,
           style: Theme.of(context)
               .textTheme
-              .bodyText1!
+              .headline6!
               .copyWith(color: AppTheme.black),
         ),
       ),

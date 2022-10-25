@@ -34,13 +34,14 @@ class LoginPage extends StatelessWidget implements AutoRouteWrapper {
           state.notifMsg!.message,
         );
       },
-      child: const _View(),
+      child: _View(),
     );
   }
 }
 
 class _View extends StatelessWidget {
-  const _View({Key? key}) : super(key: key);
+  _View({Key? key}) : super(key: key);
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -64,8 +65,10 @@ class _View extends StatelessWidget {
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
                           padding: const EdgeInsets.all(20),
-                          child: const _Form(),
+                          child: _Form(formKey: _formKey),
                         ),
+                        const SizedBox(height: 20),
+                        _SubmitButton(formKey: _formKey),
                       ],
                     ),
                   ),
@@ -95,22 +98,16 @@ class _View extends StatelessWidget {
   }
 }
 
-class _Form extends StatefulWidget {
-  const _Form({Key? key}) : super(key: key);
-
-  @override
-  State<_Form> createState() => _FormState();
-}
-
-class _FormState extends State<_Form> {
-  final _formKey = GlobalKey<FormState>();
+class _Form extends StatelessWidget {
+  const _Form({required this.formKey, Key? key}) : super(key: key);
+  final GlobalKey<FormState> formKey;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
       builder: (context, state) {
         return Form(
-          key: _formKey,
+          key: formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -125,8 +122,6 @@ class _FormState extends State<_Form> {
                 style: Theme.of(context).textTheme.bodyText1!,
               ),
               const _PasswordInput(),
-              const SizedBox(height: 20),
-              _SubmitButton(formKey: _formKey)
             ],
           ),
         );

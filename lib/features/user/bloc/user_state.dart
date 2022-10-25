@@ -1,10 +1,25 @@
 part of 'user_bloc.dart';
 
-abstract class UserState extends Equatable {
-  const UserState();
-  
+class UserState extends Equatable {
+  const UserState({
+    this.notifMsg,
+    this.status = Status.initial,
+    this.user,
+  });
+  final NotifMsg? notifMsg;
+  final User? user;
+  final Status status;
+
+  UserState copyWith({NotifMsg? notifMsg, User? user, Status? status}) {
+    return UserState(
+      notifMsg: notifMsg ?? this.notifMsg,
+      status: status ?? Status.initial,
+      user: user ?? this.user,
+    );
+  }
+
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [notifMsg, status, user];
 }
 
-class UserInitial extends UserState {}
+enum Status { error, initial, loading, success }

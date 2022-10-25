@@ -11,105 +11,121 @@
 // ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i8;
-import 'package:birdiefy/features/login/view/view.dart' as _i1;
-import 'package:birdiefy/features/page_not_found/view/view.dart' as _i2;
-import 'package:birdiefy/features/register/view/view.dart' as _i3;
-import 'package:birdiefy/features/round/view/view.dart' as _i4;
+import 'package:auto_route/auto_route.dart' as _i9;
+import 'package:birdiefy/features/add_round/view/view.dart' as _i1;
+import 'package:birdiefy/features/login/view/view.dart' as _i2;
+import 'package:birdiefy/features/page_not_found/view/view.dart' as _i3;
+import 'package:birdiefy/features/register/view/view.dart' as _i4;
+import 'package:birdiefy/features/round/view/view.dart' as _i7;
 import 'package:birdiefy/features/tab/view/view.dart' as _i5;
-import 'package:birdiefy/features/user/view/view.dart' as _i6;
-import 'package:birdiefy/features/welcome/view/view.dart' as _i7;
-import 'package:birdiefy/routing/guard.dart' as _i10;
-import 'package:flutter/material.dart' as _i9;
+import 'package:birdiefy/features/user/view/view.dart' as _i8;
+import 'package:birdiefy/features/welcome/view/view.dart' as _i6;
+import 'package:birdiefy/routing/guard.dart' as _i11;
+import 'package:flutter/material.dart' as _i10;
 
-class AppRouter extends _i8.RootStackRouter {
+class AppRouter extends _i9.RootStackRouter {
   AppRouter({
-    _i9.GlobalKey<_i9.NavigatorState>? navigatorKey,
+    _i10.GlobalKey<_i10.NavigatorState>? navigatorKey,
     required this.authGuard,
   }) : super(navigatorKey);
 
-  final _i10.AuthGuard authGuard;
+  final _i11.AuthGuard authGuard;
 
   @override
-  final Map<String, _i8.PageFactory> pagesMap = {
-    LoginRoute.name: (routeData) {
-      return _i8.MaterialPageX<dynamic>(
+  final Map<String, _i9.PageFactory> pagesMap = {
+    AddRoundRoute.name: (routeData) {
+      return _i9.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: _i8.WrappedRoute(child: const _i1.LoginPage()),
+        child: _i9.WrappedRoute(child: const _i1.AddRoundPage()),
+      );
+    },
+    LoginRoute.name: (routeData) {
+      return _i9.MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: _i9.WrappedRoute(child: const _i2.LoginPage()),
       );
     },
     RouteNotFoundRoute.name: (routeData) {
-      return _i8.MaterialPageX<dynamic>(
+      return _i9.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i2.PageNotFoundPage(),
+        child: const _i3.PageNotFoundPage(),
       );
     },
     RegisterRoute.name: (routeData) {
-      return _i8.MaterialPageX<dynamic>(
+      return _i9.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: _i8.WrappedRoute(child: const _i3.RegisterPage()),
-      );
-    },
-    RoundRoute.name: (routeData) {
-      return _i8.MaterialPageX<dynamic>(
-        routeData: routeData,
-        child: const _i4.RoundPage(),
+        child: _i9.WrappedRoute(child: const _i4.RegisterPage()),
       );
     },
     TabRoute.name: (routeData) {
-      return _i8.MaterialPageX<dynamic>(
+      return _i9.MaterialPageX<dynamic>(
         routeData: routeData,
         child: const _i5.TabPage(),
       );
     },
-    UserRoute.name: (routeData) {
-      return _i8.MaterialPageX<dynamic>(
+    WelcomeRoute.name: (routeData) {
+      return _i9.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i6.UserPage(),
+        child: _i9.WrappedRoute(child: const _i6.WelcomePage()),
       );
     },
-    WelcomeRoute.name: (routeData) {
-      return _i8.MaterialPageX<dynamic>(
+    RoundRoute.name: (routeData) {
+      return _i9.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: _i8.WrappedRoute(child: const _i7.WelcomePage()),
+        child: _i9.WrappedRoute(child: const _i7.RoundPage()),
+      );
+    },
+    UserRoute.name: (routeData) {
+      return _i9.MaterialPageX<dynamic>(
+        routeData: routeData,
+        child: const _i8.UserPage(),
       );
     },
   };
 
   @override
-  List<_i8.RouteConfig> get routes => [
-        _i8.RouteConfig(
+  List<_i9.RouteConfig> get routes => [
+        _i9.RouteConfig(
+          AddRoundRoute.name,
+          path: 'add_round',
+          guards: [authGuard],
+        ),
+        _i9.RouteConfig(
           LoginRoute.name,
           path: 'login',
         ),
-        _i8.RouteConfig(
+        _i9.RouteConfig(
           RouteNotFoundRoute.name,
           path: 'page-not-found',
         ),
-        _i8.RouteConfig(
+        _i9.RouteConfig(
           RegisterRoute.name,
           path: 'register',
         ),
-        _i8.RouteConfig(
-          RoundRoute.name,
-          path: 'round',
-          guards: [authGuard],
-        ),
-        _i8.RouteConfig(
+        _i9.RouteConfig(
           TabRoute.name,
           path: 'tab',
           guards: [authGuard],
+          children: [
+            _i9.RouteConfig(
+              RoundRoute.name,
+              path: 'round',
+              parent: TabRoute.name,
+              guards: [authGuard],
+            ),
+            _i9.RouteConfig(
+              UserRoute.name,
+              path: 'user',
+              parent: TabRoute.name,
+              guards: [authGuard],
+            ),
+          ],
         ),
-        _i8.RouteConfig(
-          UserRoute.name,
-          path: 'user',
-          guards: [authGuard],
-        ),
-        _i8.RouteConfig(
+        _i9.RouteConfig(
           WelcomeRoute.name,
           path: '/',
         ),
-        _i8.RouteConfig(
+        _i9.RouteConfig(
           '*#redirect',
           path: '*',
           redirectTo: '',
@@ -119,8 +135,20 @@ class AppRouter extends _i8.RootStackRouter {
 }
 
 /// generated route for
-/// [_i1.LoginPage]
-class LoginRoute extends _i8.PageRouteInfo<void> {
+/// [_i1.AddRoundPage]
+class AddRoundRoute extends _i9.PageRouteInfo<void> {
+  const AddRoundRoute()
+      : super(
+          AddRoundRoute.name,
+          path: 'add_round',
+        );
+
+  static const String name = 'AddRoundRoute';
+}
+
+/// generated route for
+/// [_i2.LoginPage]
+class LoginRoute extends _i9.PageRouteInfo<void> {
   const LoginRoute()
       : super(
           LoginRoute.name,
@@ -131,8 +159,8 @@ class LoginRoute extends _i8.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i2.PageNotFoundPage]
-class RouteNotFoundRoute extends _i8.PageRouteInfo<void> {
+/// [_i3.PageNotFoundPage]
+class RouteNotFoundRoute extends _i9.PageRouteInfo<void> {
   const RouteNotFoundRoute()
       : super(
           RouteNotFoundRoute.name,
@@ -143,8 +171,8 @@ class RouteNotFoundRoute extends _i8.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i3.RegisterPage]
-class RegisterRoute extends _i8.PageRouteInfo<void> {
+/// [_i4.RegisterPage]
+class RegisterRoute extends _i9.PageRouteInfo<void> {
   const RegisterRoute()
       : super(
           RegisterRoute.name,
@@ -155,8 +183,33 @@ class RegisterRoute extends _i8.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.RoundPage]
-class RoundRoute extends _i8.PageRouteInfo<void> {
+/// [_i5.TabPage]
+class TabRoute extends _i9.PageRouteInfo<void> {
+  const TabRoute({List<_i9.PageRouteInfo>? children})
+      : super(
+          TabRoute.name,
+          path: 'tab',
+          initialChildren: children,
+        );
+
+  static const String name = 'TabRoute';
+}
+
+/// generated route for
+/// [_i6.WelcomePage]
+class WelcomeRoute extends _i9.PageRouteInfo<void> {
+  const WelcomeRoute()
+      : super(
+          WelcomeRoute.name,
+          path: '/',
+        );
+
+  static const String name = 'WelcomeRoute';
+}
+
+/// generated route for
+/// [_i7.RoundPage]
+class RoundRoute extends _i9.PageRouteInfo<void> {
   const RoundRoute()
       : super(
           RoundRoute.name,
@@ -167,20 +220,8 @@ class RoundRoute extends _i8.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i5.TabPage]
-class TabRoute extends _i8.PageRouteInfo<void> {
-  const TabRoute()
-      : super(
-          TabRoute.name,
-          path: 'tab',
-        );
-
-  static const String name = 'TabRoute';
-}
-
-/// generated route for
-/// [_i6.UserPage]
-class UserRoute extends _i8.PageRouteInfo<void> {
+/// [_i8.UserPage]
+class UserRoute extends _i9.PageRouteInfo<void> {
   const UserRoute()
       : super(
           UserRoute.name,
@@ -188,16 +229,4 @@ class UserRoute extends _i8.PageRouteInfo<void> {
         );
 
   static const String name = 'UserRoute';
-}
-
-/// generated route for
-/// [_i7.WelcomePage]
-class WelcomeRoute extends _i8.PageRouteInfo<void> {
-  const WelcomeRoute()
-      : super(
-          WelcomeRoute.name,
-          path: '/',
-        );
-
-  static const String name = 'WelcomeRoute';
 }

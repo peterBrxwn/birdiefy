@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:birdiefy/features/notifications/services/models/notif_msg.dart';
+import 'package:birdiefy/features/user/services/repo.dart';
+import 'package:birdiefy/injection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -11,32 +14,40 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(const LoginState()) {
     on<EmailChanged>(_emailChanged);
-    on<EmailFormSubmit>(_emailFormSubmit);
+    on<Login>(_login);
     on<PasswordChanged>(_passwordChanged);
-    on<SubmitError>(_submitError);
     on<TogglePasswordVisibility>(_togglePasswordVisibility);
   }
+  final _localData = locator<SharedPreferences>();
 
   void _emailChanged(EmailChanged event, Emitter<LoginState> emit) {
     emit(state.copyWith(email: event.email));
   }
 
-  Future<void> _emailFormSubmit(
-    EmailFormSubmit event,
+  Future<void> _login(
+    Login event,
     Emitter<LoginState> emit,
   ) async {
     emit(state.copyWith(status: Status.loading));
+
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: state.email,
         password: state.password,
       );
 
-      if (!credential.user!.emailVerified) {
-        credential.user!.sendEmailVerification();
-        throw 'Please check your email for verification link.';
-      }
-    emit(state.copyWith(status: Status.loginSuccess));
+      // for email verification: uncomment this block of code.
+      // if (!credential.user!.emailVerified) {
+      //   credential.user!.sendEmailVerification();
+      //   throw 'Please check your email for verification link.';
+      // }
+      final user = await UserImpl.auth(id: credential.user!.uid);
+      if (user == null) throw '';
+      await _localData.setStringList(
+        'courses',
+        ['Golf course 1', 'Golf course 2', 'Golf course 3', 'Golf course 4'],
+      );
+      emit(state.copyWith(status: Status.submitSuccess));
     } on FirebaseAuthException catch (e) {
       String errorMsg = 'Something went wrong.';
       switch (e.code) {
@@ -52,12 +63,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           errorMsg = 'Invalid login details.';
           break;
       }
-      add(SubmitError(message: errorMsg, status: Status.emailSubmitError));
+
+      return emit(
+        state.copyWith(
+          notifMsg: NotifMsg(message: errorMsg),
+          status: Status.submitError,
+        ),
+      );
     } catch (e) {
-      return add(
-        SubmitError(
-          message: e is String ? e : 'Something went wrong',
-          status: Status.emailSubmitError,
+      final errorMsg = e is String && e.isNotEmpty ? e : 'Something went wrong';
+      return emit(
+        state.copyWith(
+          notifMsg: NotifMsg(message: errorMsg),
+          status: Status.submitError,
         ),
       );
     }
@@ -65,15 +83,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   void _passwordChanged(PasswordChanged event, Emitter<LoginState> emit) {
     emit(state.copyWith(password: event.password));
-  }
-
-  void _submitError(SubmitError event, Emitter<LoginState> emit) {
-    return emit(
-      state.copyWith(
-        notifMsg: NotifMsg(message: event.message),
-        status: event.status,
-      ),
-    );
   }
 
   void _togglePasswordVisibility(

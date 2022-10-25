@@ -25,6 +25,7 @@ class LoadingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color btnColor;
+
     switch (color) {
       case ButtonColorEnum.primary:
         btnColor = Theme.of(context).primaryColor;
@@ -35,18 +36,23 @@ class LoadingButton extends StatelessWidget {
       default:
         btnColor = AppTheme.lightGrey;
     }
-
     return RoundedLoadingButton(
       key: widgetKey,
-      borderRadius: 5,
+      borderRadius: 50,
       controller: controller,
       color: btnColor,
       onPressed: onPressed,
-      width: 65,
-      height: 37,
-      child: Text(
-        text.toUpperCase(),
-        style: const TextStyle(color: AppTheme.white),
+      width: 200,
+      height: 60,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Text(
+          text,
+          style: Theme.of(context)
+              .textTheme
+              .bodyText1!
+              .copyWith(color: AppTheme.black),
+        ),
       ),
     );
   }

@@ -6,3 +6,17 @@ abstract class UserEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class Init extends UserEvent {
+  const Init();
+
+  @override
+  List<Object> get props => [];
+}
+
+class Logout extends UserEvent {
+  const Logout();
+
+  @override
+  List<Object> get props => [];
+}

@@ -15,7 +15,7 @@ class EmailChanged extends LoginEvent {
   List<Object> get props => [email];
 }
 
-class EmailFormSubmit extends LoginEvent {}
+class Login extends LoginEvent {}
 
 class PasswordChanged extends LoginEvent {
   const PasswordChanged({required this.password});
@@ -23,18 +23,6 @@ class PasswordChanged extends LoginEvent {
 
   @override
   List<Object> get props => [password];
-}
-
-class SubmitError extends LoginEvent {
-  const SubmitError({
-    required this.status,
-    this.message = 'Something went wrong.',
-  });
-  final String message;
-  final Status status;
-
-  @override
-  List<Object> get props => [message, status];
 }
 
 class TogglePasswordVisibility extends LoginEvent {}

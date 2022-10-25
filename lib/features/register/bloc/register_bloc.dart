@@ -1,7 +1,6 @@
 import 'package:birdiefy/features/notifications/services/models/notif_msg.dart';
 import 'package:birdiefy/features/user/domain/entity/user_entity.dart';
 import 'package:birdiefy/features/user/domain/entity/user_type.dart';
-import 'package:birdiefy/features/user/services/models/user_model.dart';
 import 'package:birdiefy/features/user/services/repo.dart';
 import 'package:birdiefy/injection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,17 +12,14 @@ part 'register_event.dart';
 part 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  RegisterBloc()
-      : super(
-          const RegisterState(),
-        ) {
+  RegisterBloc() : super(const RegisterState()) {
     on<ConfirmPasswordChanged>(_confirmPasswordChanged);
     on<EmailChanged>(_emailChanged);
-    on<EmailFormSubmit>(_emailFormSubmit);
     on<FirstNameChanged>(_firstNameChanged);
+    on<HandicapChanged>(_handicapChanged);
     on<LastNameChanged>(_lastNameChanged);
     on<PasswordChanged>(_passwordChanged);
-    on<SubmitError>(_submitError);
+    on<Register>(_register);
     on<ToggleConfirmPasswordVisibility>(_toggleConfirmPasswordVisibility);
     on<TogglePasswordVisibility>(_togglePasswordVisibility);
     on<UserTypeChanged>(_userTypeChanged);
@@ -41,36 +37,60 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     emit(state.copyWith(email: event.email));
   }
 
-  Future<void> _emailFormSubmit(
-    EmailFormSubmit event,
-    Emitter<RegisterState> emit,
-  ) async {
+  void _firstNameChanged(FirstNameChanged event, Emitter<RegisterState> emit) {
+    emit(state.copyWith(firstname: event.name));
+  }
+
+  void _handicapChanged(HandicapChanged event, Emitter<RegisterState> emit) {
+    emit(state.copyWith(handicap: event.value));
+  }
+
+  void _lastNameChanged(LastNameChanged event, Emitter<RegisterState> emit) {
+    emit(state.copyWith(lastname: event.name));
+  }
+
+  void _passwordChanged(PasswordChanged event, Emitter<RegisterState> emit) {
+    emit(state.copyWith(password: event.password));
+  }
+
+  Future<void> _register(Register event, Emitter<RegisterState> emit) async {
+    emit(state.copyWith(status: Status.loading));
     try {
+      if (state.userType == null) {
+        throw 'Please select a user type [Player or Coach]';
+      }
+
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: state.email,
         password: state.password,
       );
 
-      final uid = credential.user!.uid;
-
       final user = User(
         dateAdded: DateTime.now(),
         email: state.email,
         firstname: state.firstname,
         handicap: state.handicap,
-        id: uid,
-        lastname: 'User',
+        id: credential.user!.uid,
+        lastname: state.lastname,
         userType: state.userType!,
       );
-      final userRes = await UserImpl.authRegister(user: user);
-      if (userRes.isLeft()) throw '';
-
-      await _localData.setString(
-        'user',
-        UserModel.fromEntity(user).toJsonString(),
+      final result = await UserImpl.authRegister(user: user);
+      result.fold(
+        (l) => throw l.message,
+        (r) async {
+          await _localData.setStringList(
+            'courses',
+            [
+              'Golf course 1',
+              'Golf course 2',
+              'Golf course 3',
+              'Golf course 4',
+            ],
+          );
+          emit(state.copyWith(status: Status.submitSuccess));
+        },
       );
-      emit(state.copyWith(status: Status.submitSuccess));
     } on FirebaseAuthException catch (e) {
       String errorMsg = 'Something went wrong.';
       switch (e.code) {
@@ -87,42 +107,22 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           errorMsg = 'Email is already in use on different account';
           break;
       }
-      add(SubmitError(message: errorMsg, status: Status.submitError));
+      return emit(
+        state.copyWith(
+          notifMsg: NotifMsg(message: errorMsg),
+          status: Status.submitError,
+        ),
+      );
     } catch (e) {
-      return add(
-        const SubmitError(
-          message: 'Something went wrong',
+      return emit(
+        state.copyWith(
+          notifMsg: NotifMsg(
+            message: e is String && e.isNotEmpty ? e : 'Something went wrong',
+          ),
           status: Status.submitError,
         ),
       );
     }
-  }
-
-  void _firstNameChanged(
-    FirstNameChanged event,
-    Emitter<RegisterState> emit,
-  ) {
-    emit(state.copyWith(firstname: event.name));
-  }
-
-  void _lastNameChanged(
-    LastNameChanged event,
-    Emitter<RegisterState> emit,
-  ) {
-    emit(state.copyWith(lastname: event.name));
-  }
-
-  void _passwordChanged(PasswordChanged event, Emitter<RegisterState> emit) {
-    emit(state.copyWith(password: event.password));
-  }
-
-  void _submitError(SubmitError event, Emitter<RegisterState> emit) {
-    return emit(
-      state.copyWith(
-        notifMsg: NotifMsg(message: event.message),
-        status: event.status,
-      ),
-    );
   }
 
   void _toggleConfirmPasswordVisibility(

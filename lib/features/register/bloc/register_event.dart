@@ -23,8 +23,6 @@ class EmailChanged extends RegisterEvent {
   List<Object> get props => [email];
 }
 
-class EmailFormSubmit extends RegisterEvent {}
-
 class FirstNameChanged extends RegisterEvent {
   const FirstNameChanged({required this.name});
   final String name;
@@ -57,17 +55,7 @@ class PasswordChanged extends RegisterEvent {
   List<Object> get props => [password];
 }
 
-class SubmitError extends RegisterEvent {
-  const SubmitError({
-    required this.status,
-    this.message = 'Something went wrong.',
-  });
-  final String message;
-  final Status status;
-
-  @override
-  List<Object> get props => [message, status];
-}
+class Register extends RegisterEvent {}
 
 class ToggleConfirmPasswordVisibility extends RegisterEvent {}
 

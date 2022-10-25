@@ -7,25 +7,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 
 class UserImpl implements UserRepo {
-  static CollectionReference<UserModel> _collection([String? companyId]) =>
+  static CollectionReference<UserModel> _collection() =>
       FirebaseFirestore.instance.collection('user').withConverter<UserModel>(
             fromFirestore: UserModel.fromFirestore,
             toFirestore: (data, _) => data.toFirestore(),
           );
-  Query<UserModel> _query() => _collection().orderBy('name');
-
-  Stream<QuerySnapshot<UserModel>> _snapshots() => _query().snapshots();
-  static DocumentReference<UserModel> _reference(String? id,
-          [String? companyId]) =>
-      _collection(companyId).doc(id);
-  String _getDocId() => _collection().doc().id;
+  static DocumentReference<UserModel> _reference(String? id) =>
+      _collection().doc(id);
 
   @override
   ErrorOrType<String> add(User user) {
     try {
-      final docId = user.id ?? _getDocId();
-      _reference(docId).set(UserModel.fromEntity(user));
-      return Right(docId);
+      _reference(user.id!).set(UserModel.fromEntity(user));
+      return Right(user.id!);
     } catch (e) {
       return Left(AppError(debugError: e.toString()));
     }
@@ -33,9 +27,8 @@ class UserImpl implements UserRepo {
 
   static Future<User?> auth({
     required String id,
-    required String companyId,
   }) async {
-    final doc = await _reference(id, companyId).get();
+    final doc = await _reference(id).get();
     return doc.data();
   }
 
@@ -69,10 +62,10 @@ class UserImpl implements UserRepo {
   }
 
   @override
-  Stream<ErrorOrType<List<User>>> stream() async* {
-    yield* _snapshots().map((element) {
+  Stream<ErrorOrType<UserModel?>> stream({required String id}) async* {
+    yield* _reference(id).snapshots().map((element) {
       try {
-        return Right(element.docs.map((e) => e.data()).toList());
+        return Right(element.data());
       } catch (e) {
         return Left(AppError(debugError: e.toString()));
       }

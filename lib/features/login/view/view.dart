@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:birdiefy/core/domain/constants.dart';
 import 'package:birdiefy/features/notifications/view/view.dart';
-import 'package:birdiefy/core/services/constants.dart';
 import 'package:birdiefy/features/register/view/view.dart';
+import 'package:birdiefy/features/tab/view/view.dart';
 import 'package:birdiefy/shared/input_decoration.dart';
-import 'package:birdiefy/shared/buttons/loading_lg_button.dart';
+import 'package:birdiefy/shared/buttons/loading_button.dart';
 import 'package:birdiefy/shared/remove_focus.dart';
 import 'package:birdiefy/features/login/bloc/login_bloc.dart';
 import 'package:birdiefy/utils/app_theme.dart';
@@ -24,21 +25,15 @@ class LoginPage extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<LoginBloc, LoginState>(
-          listenWhen: (previous, current) => previous.status != current.status,
-          listener: (context, state) {
-            if (state.notifMsg != null) {
-              Notify.generic(
-                context,
-                state.notifMsg!.type,
-                state.notifMsg!.message,
-              );
-            }
-          },
-        ),
-      ],
+    return BlocListener<LoginBloc, LoginState>(
+      listenWhen: (previous, current) => current.notifMsg != null,
+      listener: (context, state) {
+        Notify.generic(
+          context,
+          state.notifMsg!.type,
+          state.notifMsg!.message,
+        );
+      },
       child: const _View(),
     );
   }
@@ -131,7 +126,7 @@ class _FormState extends State<_Form> {
               ),
               const _PasswordInput(),
               const SizedBox(height: 20),
-              _EmailLoginButton(formKey: _formKey)
+              _SubmitButton(formKey: _formKey)
             ],
           ),
         );
@@ -157,7 +152,7 @@ class _EmailInput extends StatelessWidget {
           validator: (value) {
             String val = value!.trim();
             if (val.isEmpty) return 'Please enter your email';
-            if (!emailRegExp.hasMatch(val)) {
+            if (!Constants.emailRegExp.hasMatch(val)) {
               return 'Please enter a valid email';
             }
             return null;
@@ -212,15 +207,15 @@ class _PasswordInput extends StatelessWidget {
   }
 }
 
-class _EmailLoginButton extends StatefulWidget {
-  const _EmailLoginButton({required this.formKey, Key? key}) : super(key: key);
+class _SubmitButton extends StatefulWidget {
+  const _SubmitButton({required this.formKey, Key? key}) : super(key: key);
   final GlobalKey<FormState> formKey;
 
   @override
-  State<_EmailLoginButton> createState() => _EmailLoginButtonState();
+  State<_SubmitButton> createState() => _SubmitButtonState();
 }
 
-class _EmailLoginButtonState extends State<_EmailLoginButton> {
+class _SubmitButtonState extends State<_SubmitButton> {
   final _buttonController = RoundedLoadingButtonController();
   Timer? _timer;
 
@@ -236,31 +231,31 @@ class _EmailLoginButtonState extends State<_EmailLoginButton> {
     return BlocConsumer<LoginBloc, LoginState>(
       listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) {
-        if (state.status == Status.emailSubmitError) {
+        if (state.status == Status.submitError) {
           _buttonController.error();
           _timer = Timer(
             const Duration(seconds: 3),
             _buttonController.reset,
           );
         }
-        if (state.status == Status.loginSuccess) {
+        if (state.status == Status.submitSuccess) {
           _buttonController.success();
           _timer = Timer(
             const Duration(seconds: 2),
             () {
               context.router.removeUntil((_) => false);
-              context.router.pushNamed('tab');
+              context.router.pushNamed(TabPage.routeName);
             },
           );
         }
       },
       builder: (context, state) {
-        return LoadingLgButton(
+        return LoadingButton(
           text: 'Login',
           controller: _buttonController,
           onPressed: () {
             if (widget.formKey.currentState!.validate()) {
-              return context.read<LoginBloc>().add(EmailFormSubmit());
+              return context.read<LoginBloc>().add(Login());
             }
 
             _buttonController.error();

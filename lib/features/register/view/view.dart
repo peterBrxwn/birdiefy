@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:birdiefy/core/domain/constants.dart';
 import 'package:birdiefy/features/login/view/view.dart';
 import 'package:birdiefy/features/notifications/view/view.dart';
-import 'package:birdiefy/core/services/constants.dart';
+import 'package:birdiefy/features/tab/view/view.dart';
 import 'package:birdiefy/features/user/domain/entity/user_type.dart';
 import 'package:birdiefy/shared/input_decoration.dart';
-import 'package:birdiefy/shared/buttons/loading_lg_button.dart';
+import 'package:birdiefy/shared/buttons/loading_button.dart';
 import 'package:birdiefy/shared/remove_focus.dart';
 import 'package:birdiefy/features/register/bloc/register_bloc.dart';
 import 'package:birdiefy/utils/app_theme.dart';
@@ -25,21 +26,15 @@ class RegisterPage extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<RegisterBloc, RegisterState>(
-          listenWhen: (previous, current) => previous.status != current.status,
-          listener: (context, state) {
-            if (state.notifMsg != null) {
-              Notify.generic(
-                context,
-                state.notifMsg!.type,
-                state.notifMsg!.message,
-              );
-            }
-          },
-        ),
-      ],
+    return BlocListener<RegisterBloc, RegisterState>(
+      listenWhen: (previous, current) => current.notifMsg != null,
+      listener: (context, state) {
+        Notify.generic(
+          context,
+          state.notifMsg!.type,
+          state.notifMsg!.message,
+        );
+      },
       child: const _View(),
     );
   }
@@ -55,28 +50,24 @@ class _View extends StatelessWidget {
         backgroundColor: AppTheme.background,
         body: SingleChildScrollView(
           child: Container(
-            height: MediaQuery.of(context).size.height,
+            constraints: BoxConstraints(
+              minHeight: MediaQuery.of(context).size.height,
+            ),
             padding: const EdgeInsets.all(20),
             child: Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 20),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          decoration: const BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          padding: const EdgeInsets.all(20),
-                          child: const _Form(),
-                        ),
-                      ],
+                  const SizedBox(height: 50),
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
+                    padding: const EdgeInsets.all(20),
+                    child: const _Form(),
                   ),
+                  const SizedBox(height: 20),
                   Text(
                     'Have an account already?',
                     style: Theme.of(context)
@@ -164,7 +155,7 @@ class _FormState extends State<_Form> {
               ),
               const _UserTypeInput(),
               const SizedBox(height: 10),
-              _EmailRegisterButton(formKey: _formKey)
+              _SubmitButton(formKey: _formKey)
             ],
           ),
         );
@@ -189,7 +180,7 @@ class _EmailInput extends StatelessWidget {
           validator: (value) {
             String val = value!.trim();
             if (val.isEmpty) return 'Please enter your email';
-            if (!emailRegExp.hasMatch(val)) {
+            if (!Constants.emailRegExp.hasMatch(val)) {
               return 'Please enter a valid email';
             }
             if (val.length > 99) return 'Maximum length (100) exceeded';
@@ -305,8 +296,7 @@ class _FirstNameInput extends StatelessWidget {
       keyboardType: TextInputType.name,
       style: const TextStyle(color: AppTheme.themeGreen),
       textCapitalization: TextCapitalization.words,
-      decoration:
-          AppInputDecoration(labelText: 'Enter your First Name here...'),
+      decoration: AppInputDecoration(labelText: 'Enter your name here...'),
       validator: (value) {
         String val = value!.trim();
         if (val.isEmpty) return 'Please enter your first name';
@@ -329,7 +319,7 @@ class _LastNameInput extends StatelessWidget {
       keyboardType: TextInputType.name,
       style: const TextStyle(color: AppTheme.themeGreen),
       textCapitalization: TextCapitalization.words,
-      decoration: AppInputDecoration(labelText: 'Enter your Last Name here...'),
+      decoration: AppInputDecoration(labelText: 'Enter your last name here...'),
       validator: (value) {
         String val = value!.trim();
         if (val.isEmpty) return 'Please enter your last name';
@@ -451,16 +441,15 @@ class _UserTypeInput extends StatelessWidget {
   }
 }
 
-class _EmailRegisterButton extends StatefulWidget {
-  const _EmailRegisterButton({required this.formKey, Key? key})
-      : super(key: key);
+class _SubmitButton extends StatefulWidget {
+  const _SubmitButton({required this.formKey, Key? key}) : super(key: key);
   final GlobalKey<FormState> formKey;
 
   @override
-  State<_EmailRegisterButton> createState() => _EmailRegisterButtonState();
+  State<_SubmitButton> createState() => _SubmitButtonState();
 }
 
-class _EmailRegisterButtonState extends State<_EmailRegisterButton> {
+class _SubmitButtonState extends State<_SubmitButton> {
   final _buttonController = RoundedLoadingButtonController();
   Timer? _timer;
 
@@ -474,7 +463,6 @@ class _EmailRegisterButtonState extends State<_EmailRegisterButton> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RegisterBloc, RegisterState>(
-      listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) {
         if (state.status == Status.submitError) {
           _buttonController.error();
@@ -489,18 +477,18 @@ class _EmailRegisterButtonState extends State<_EmailRegisterButton> {
             const Duration(seconds: 2),
             () {
               context.router.removeUntil((_) => false);
-              context.router.pushNamed('tab');
+              context.router.pushNamed(TabPage.routeName);
             },
           );
         }
       },
       builder: (context, state) {
-        return LoadingLgButton(
+        return LoadingButton(
           text: 'Create Account',
           controller: _buttonController,
           onPressed: () {
             if (widget.formKey.currentState!.validate()) {
-              return context.read<RegisterBloc>().add(EmailFormSubmit());
+              return context.read<RegisterBloc>().add(Register());
             }
 
             _buttonController.error();

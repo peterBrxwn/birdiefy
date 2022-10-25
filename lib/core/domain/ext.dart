@@ -10,14 +10,6 @@ extension FirstWhereExt<T> on List<T> {
     }
     return null;
   }
-
-  /// True if any element satisfies [test], or false if none.
-  bool firstWhereBool(bool Function(T element) test) {
-    for (final element in this) {
-      if (test(element)) return true;
-    }
-    return false;
-  }
 }
 
 extension ParseNumbers on String {
@@ -37,6 +29,11 @@ extension ParseNumbers on String {
         .split(' ')
         .map((str) => str.capitalize)
         .join(' ');
+  }
+
+  String get addFullStop {
+    if (characters.last == '.') return this;
+    return '$this.';
   }
 
   /// Returns if the string is a valid double.
@@ -130,10 +127,4 @@ extension EnumX on Enum {
     );
     return result[0].toUpperCase() + result.substring(1).toLowerCase();
   }
-}
-
-extension CustomContext on BuildContext {
-  /// Check whether it is dark mode.
-  bool get isDarkMode =>
-      MediaQuery.of(this).platformBrightness == Brightness.dark;
 }

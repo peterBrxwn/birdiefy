@@ -1,5 +1,6 @@
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class TimeUtils {
   static int get nowMillis => DateTime.now().millisecondsSinceEpoch;
@@ -7,7 +8,7 @@ class TimeUtils {
 
   static DateTime toDateTime(Timestamp val) => val.toDate();
   static DateTime toDate(Timestamp val) {
-    DateTime dateTime = val.toDate();
+    final dateTime = val.toDate();
     return DateTime(dateTime.year, dateTime.month, dateTime.day);
   }
 
@@ -23,7 +24,7 @@ class TimeUtils {
 
   static Timestamp fromDateTime(DateTime val) => Timestamp.fromDate(val);
   static Timestamp fromDate(DateTime val) {
-    DateTime date = DateTime(val.year, val.month, val.day);
+    final date = DateTime(val.year, val.month, val.day);
     return Timestamp.fromDate(date);
   }
 
@@ -40,17 +41,15 @@ class TimeUtils {
   static Timestamp fromMap(Map val) =>
       Timestamp(val['_seconds'], val['_nanoseconds']);
   static String shortDate(DateTime val) {
-    String res = val.toString();
+    final res = val.toString();
     return '${res.substring(8, 10)}/${res.substring(5, 7)}';
   }
 
-  // static String shortDateFormat(DateTime val) {
-  //   if (val.isAfter(stringToDateTime('Today')!) &&
-  //       val.isBefore(stringToDateTime('Tomorrow')!)) {
-  //     return format(val, allowFromNow: true);
-  //   }
-  //   return DateFormat('d MMM').format(val);
-  // }
+  static String shortDateString(DateTime date) =>
+      DateFormat("MMM dd").format(date);
+
+  static String shortDateFormat(DateTime date) =>
+      DateFormat("dd-MM-yyyy").format(date);
 
   static String shortDateRange(DateTime start, DateTime? end) {
     String selectedDateString = shortDate(start);
@@ -63,7 +62,7 @@ class TimeUtils {
 
   static String dateInputFormat(DateTime? date) {
     if (date == null) return '';
-    String dateString = date.toString();
+    final dateString = date.toString();
 
     if (!dateString.contains('-')) return dateString.substring(0, 10);
     return '${dateString.substring(8, 10)}/${dateString.substring(5, 7)}/${dateString.substring(0, 4)}';
@@ -71,7 +70,7 @@ class TimeUtils {
 
   static String dateInputTest(DateTime? date) {
     if (date == null) return '';
-    String dateString = date.toString();
+    final dateString = date.toString();
 
     if (!dateString.contains('-')) return dateString.substring(0, 10);
     return dateString.substring(8, 10) +
@@ -81,12 +80,12 @@ class TimeUtils {
 
   static String reverseDateInputFormat(String date) {
     if (date.isEmpty) return '';
-    String dateString = date.toString();
+    final dateString = date.toString();
 
     if (!dateString.contains('/')) return dateString.substring(0, 10);
-    int? part1 = int.tryParse(dateString.substring(6, 10));
-    int? part2 = int.tryParse(dateString.substring(3, 5));
-    int? part3 = int.tryParse(dateString.substring(0, 2));
+    final part1 = int.tryParse(dateString.substring(6, 10));
+    final part2 = int.tryParse(dateString.substring(3, 5));
+    final part3 = int.tryParse(dateString.substring(0, 2));
 
     if (part1 == null || part2 == null || part3 == null) return '';
     if (part3 > 31 || part3 < 1) return '';
@@ -100,7 +99,7 @@ class TimeUtils {
   }
 
   static DateTime? stringToDateTime(String? string) {
-    final DateTime now = DateTime.now();
+    final now = DateTime.now();
     if (string == 'Tomorrow') return DateTime(now.year, now.month, now.day + 1);
     if (string == 'Today') return DateTime(now.year, now.month, now.day);
     if (string == 'Yesterday') {

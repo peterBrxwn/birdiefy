@@ -36,7 +36,7 @@ class AppTheme {
     error: _themeRed,
   );
   static const _appBarElevation = 0.5;
-  static const _appBarOpacity = 0.95;
+  static const _appBarOpacity = 0.0;
   static const _swapColors = false;
   static final _fontFamily = GoogleFonts.montserrat().fontFamily;
   static const _textTheme = TextTheme(
@@ -86,7 +86,7 @@ class AppTheme {
     colors: _schemeLight,
     swapColors: _swapColors,
     lightIsWhite: true,
-    appBarStyle: FlexAppBarStyle.background,
+    appBarStyle: FlexAppBarStyle.primary,
     appBarOpacity: _appBarOpacity,
     transparentStatusBar: _transparentStatusBar,
     tabBarStyle: _tabBarForAppBar,
@@ -102,8 +102,8 @@ class AppTheme {
     subThemesData: _subThemesData,
     visualDensity: _visualDensity,
     platform: _platform,
-    appBarBackground: notWhite,
-    background: background,
+    // appBarBackground: black,
+    // background: background,
   ).copyWith(
     brightness: Brightness.light,
     checkboxTheme: _checkBoxTheme,
@@ -115,7 +115,7 @@ class AppTheme {
     colors: _schemeLight,
     swapColors: _swapColors,
     darkIsTrueBlack: true,
-    appBarStyle: FlexAppBarStyle.background,
+    appBarStyle: FlexAppBarStyle.primary,
     appBarElevation: _appBarElevation,
     appBarOpacity: _appBarOpacity,
     transparentStatusBar: _transparentStatusBar,
@@ -129,8 +129,8 @@ class AppTheme {
     subThemesData: _subThemesData,
     visualDensity: _visualDensity,
     platform: _platform,
-    appBarBackground: notBlack,
-    background: background,
+    // appBarBackground: black,
+    // background: background,
   ).copyWith(
     brightness: Brightness.dark,
     checkboxTheme: _checkBoxTheme,

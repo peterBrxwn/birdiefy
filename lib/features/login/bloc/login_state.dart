@@ -41,8 +41,8 @@ class LoginState extends Equatable {
 }
 
 enum Status {
-  emailSubmitError,
   initial,
   loading,
-  loginSuccess,
+  submitError,
+  submitSuccess,
 }

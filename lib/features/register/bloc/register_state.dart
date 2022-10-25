@@ -49,7 +49,7 @@ class RegisterState extends Equatable {
       lastname: lastname ?? this.lastname,
       notifMsg: notifMsg,
       password: password ?? this.password,
-      status: status ?? this.status,
+      status: status ?? Status.initial,
       userType: userType ?? this.userType,
     );
   }

@@ -50,6 +50,8 @@ class _View extends StatefulWidget {
 }
 
 class _ViewState extends State<_View> {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   void didChangeDependencies() {
     final height = MediaQuery.of(context).size.height;
@@ -74,14 +76,20 @@ class _ViewState extends State<_View> {
         ),
         backgroundColor: AppTheme.background,
         body: SingleChildScrollView(
-          child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            margin: const EdgeInsets.all(20),
-            padding: const EdgeInsets.all(20),
-            child: const _Form(),
+          child: Column(
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                margin: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
+                child: _Form(formKey: _formKey),
+              ),
+              const SizedBox(height: 20),
+              _SubmitButton(formKey: _formKey),
+            ],
           ),
         ),
       ),
@@ -89,22 +97,16 @@ class _ViewState extends State<_View> {
   }
 }
 
-class _Form extends StatefulWidget {
-  const _Form({Key? key}) : super(key: key);
-
-  @override
-  State<_Form> createState() => _FormState();
-}
-
-class _FormState extends State<_Form> {
-  final _formKey = GlobalKey<FormState>();
+class _Form extends StatelessWidget {
+  const _Form({required this.formKey, Key? key}) : super(key: key);
+  final GlobalKey<FormState> formKey;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AddRoundBloc, AddRoundState>(
       builder: (context, state) {
         return Form(
-          key: _formKey,
+          key: formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -125,8 +127,6 @@ class _FormState extends State<_Form> {
                 style: Theme.of(context).textTheme.bodyText1!,
               ),
               const _NoOfHolesInput(),
-              const SizedBox(height: 20),
-              _SubmitButton(formKey: _formKey),
             ],
           ),
         );
@@ -331,7 +331,7 @@ class _SubmitButtonState extends State<_SubmitButton> {
       },
       builder: (context, state) {
         return LoadingButton(
-          text: 'AddRound',
+          text: 'Add Round',
           controller: _buttonController,
           onPressed: () {
             if (widget.formKey.currentState!.validate()) {

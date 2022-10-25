@@ -21,7 +21,7 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
 
   Future<void> _init(Init event, Emitter<WelcomeState> emit) async {
     // to showcase the welcome page;
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 1));
 
     try {
       final user = await _getFirebaseUser();

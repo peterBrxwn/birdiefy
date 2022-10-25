@@ -193,7 +193,7 @@ class _Details extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 10),
                     child: LinearProgressIndicator(
-                      value: 0.3,
+                      value: 0.55,
                       minHeight: 15,
                       backgroundColor: AppTheme.background,
                     ),
@@ -208,7 +208,7 @@ class _Details extends StatelessWidget {
               TableRow(
                 children: [
                   Text(
-                    'Birdies',
+                    'Pars',
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1!
@@ -217,13 +217,13 @@ class _Details extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 10),
                     child: LinearProgressIndicator(
-                      value: 0.3,
+                      value: 0.33,
                       minHeight: 15,
                       backgroundColor: AppTheme.background,
                     ),
                   ),
                   Text(
-                    '55%',
+                    '33%',
                     style: Theme.of(context).textTheme.bodyText1,
                     textAlign: TextAlign.end,
                   ),
@@ -232,7 +232,7 @@ class _Details extends StatelessWidget {
               TableRow(
                 children: [
                   Text(
-                    'Birdies',
+                    'Boggeys',
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1!
@@ -241,13 +241,13 @@ class _Details extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 10),
                     child: LinearProgressIndicator(
-                      value: 0.3,
+                      value: 0.12,
                       minHeight: 15,
                       backgroundColor: AppTheme.background,
                     ),
                   ),
                   Text(
-                    '55%',
+                    '12%',
                     style: Theme.of(context).textTheme.bodyText1,
                     textAlign: TextAlign.end,
                   ),
@@ -256,22 +256,22 @@ class _Details extends StatelessWidget {
               TableRow(
                 children: [
                   Text(
-                    'Birdies',
+                    'Average',
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1!
                         .copyWith(color: AppTheme.white),
                   ),
                   const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
+                    padding: EdgeInsets.symmetric(vertical: 30),
                     child: LinearProgressIndicator(
-                      value: 0.3,
+                      value: 0.763,
                       minHeight: 15,
                       backgroundColor: AppTheme.background,
                     ),
                   ),
                   Text(
-                    '55%',
+                    '76.3%',
                     style: Theme.of(context).textTheme.bodyText1,
                     textAlign: TextAlign.end,
                   ),

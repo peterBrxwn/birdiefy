@@ -102,8 +102,6 @@ class AppTheme {
     subThemesData: _subThemesData,
     visualDensity: _visualDensity,
     platform: _platform,
-    // appBarBackground: black,
-    // background: background,
   ).copyWith(
     brightness: Brightness.light,
     checkboxTheme: _checkBoxTheme,
@@ -129,8 +127,6 @@ class AppTheme {
     subThemesData: _subThemesData,
     visualDensity: _visualDensity,
     platform: _platform,
-    // appBarBackground: black,
-    // background: background,
   ).copyWith(
     brightness: Brightness.dark,
     checkboxTheme: _checkBoxTheme,

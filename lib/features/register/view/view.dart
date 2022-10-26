@@ -173,7 +173,7 @@ class _EmailInput extends StatelessWidget {
             labelText: 'Enter your email here...',
           ),
           validator: (value) {
-            String val = value!.trim();
+            final val = value!.trim();
             if (val.isEmpty) return 'Please enter your email';
             if (!Constants.emailRegExp.hasMatch(val)) {
               return 'Please enter a valid email';
@@ -222,10 +222,10 @@ class _PasswordInput extends StatelessWidget {
             context.read<RegisterBloc>().add(PasswordChanged(password: value));
           },
           validator: (value) {
-            String val = value!.trim();
+            final val = value!.trim();
             if (val.isEmpty) return 'Please enter your password';
             if (val.length < 6) {
-              return 'Password must contain at least 6 password';
+              return 'Password must contain at least 6 characters';
             }
             return null;
           },
@@ -269,10 +269,10 @@ class _ConfirmPasswordInput extends StatelessWidget {
                 .add(ConfirmPasswordChanged(password: value));
           },
           validator: (value) {
-            String val = value!.trim();
+            final val = value!.trim();
             if (val.isEmpty) return 'Please enter your password';
             if (val.length < 6) {
-              return 'Password must contain at least 6 password';
+              return 'Password must contain at least 6 characters';
             }
             return null;
           },
@@ -293,7 +293,7 @@ class _FirstNameInput extends StatelessWidget {
       textCapitalization: TextCapitalization.words,
       decoration: AppInputDecoration(labelText: 'Enter your name here...'),
       validator: (value) {
-        String val = value!.trim();
+        final val = value!.trim();
         if (val.isEmpty) return 'Please enter your first name';
         if (val.length < 3) return 'At least 3 characters';
         return null;
@@ -316,7 +316,7 @@ class _LastNameInput extends StatelessWidget {
       textCapitalization: TextCapitalization.words,
       decoration: AppInputDecoration(labelText: 'Enter your last name here...'),
       validator: (value) {
-        String val = value!.trim();
+        final val = value!.trim();
         if (val.isEmpty) return 'Please enter your last name';
         if (val.length < 3) return 'At least 3 characters';
         return null;
@@ -339,7 +339,7 @@ class _HandicapInput extends StatelessWidget {
       textCapitalization: TextCapitalization.words,
       decoration: AppInputDecoration(labelText: 'Ex. 12'),
       validator: (value) {
-        String val = value!.trim();
+        final val = value!.trim();
         if (val.isEmpty) return 'Please enter handicap';
         return null;
       },

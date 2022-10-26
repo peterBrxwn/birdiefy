@@ -59,6 +59,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       if (state.userType == null) {
         throw 'Please select a user type [Player or Coach]';
       }
+      if (state.password != state.confirmPassword) {
+        throw 'Passwords do not match.';
+      }
 
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(

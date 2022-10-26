@@ -145,7 +145,7 @@ class _EmailInput extends StatelessWidget {
             prefixIcon: Icons.email_outlined,
           ),
           validator: (value) {
-            String val = value!.trim();
+            final val = value!.trim();
             if (val.isEmpty) return 'Please enter your email';
             if (!Constants.emailRegExp.hasMatch(val)) {
               return 'Please enter a valid email';
@@ -192,7 +192,7 @@ class _PasswordInput extends StatelessWidget {
             context.read<LoginBloc>().add(PasswordChanged(password: value));
           },
           validator: (value) {
-            String val = value!.trim();
+            final val = value!.trim();
             if (val.isEmpty) return 'Please enter your password';
             return null;
           },

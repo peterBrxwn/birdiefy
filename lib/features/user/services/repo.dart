@@ -25,9 +25,7 @@ class UserImpl implements UserRepo {
     }
   }
 
-  static Future<User?> auth({
-    required String id,
-  }) async {
+  static Future<User?> auth({required String id}) async {
     final doc = await _reference(id).get();
     return doc.data();
   }

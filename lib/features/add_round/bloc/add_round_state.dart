@@ -3,9 +3,9 @@ part of 'add_round_bloc.dart';
 class AddRoundState extends Equatable {
   const AddRoundState({
     required this.courses,
+    required this.coursesDropdownParams,
     this.date,
     this.course,
-    required this.coursesDropdownParams,
     this.notifMsg,
     this.numberOfHoles,
     this.status = Status.initial,

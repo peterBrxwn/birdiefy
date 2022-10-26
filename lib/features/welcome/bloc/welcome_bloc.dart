@@ -14,8 +14,6 @@ part 'welcome_state.dart';
 class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
   WelcomeBloc() : super(const WelcomeState()) {
     on<Init>(_init);
-
-    add(Init());
   }
   final _localData = locator<SharedPreferences>();
 

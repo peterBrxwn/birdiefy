@@ -10,7 +10,7 @@ class WelcomePage extends StatelessWidget implements AutoRouteWrapper {
   static const routeName = '';
   @override
   Widget wrappedRoute(BuildContext context) {
-    return BlocProvider(create: (_) => WelcomeBloc(), child: this);
+    return BlocProvider(create: (_) => WelcomeBloc()..add(Init()), child: this);
   }
 
   @override

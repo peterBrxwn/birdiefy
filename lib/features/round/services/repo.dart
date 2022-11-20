@@ -1,10 +1,13 @@
+// Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart';
+
+// Project imports:
 import 'package:birdiefy/core/domain/entity/app_error.dart';
-import 'package:birdiefy/core/domain/typedef.dart';
+import 'package:birdiefy/core/typedef.dart';
 import 'package:birdiefy/features/round/domain/entity/round_entity.dart';
 import 'package:birdiefy/features/round/domain/repo.dart';
 import 'package:birdiefy/features/round/services/models/round_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dartz/dartz.dart';
 
 class RoundImpl implements RoundRepo {
   static CollectionReference<RoundModel> _collection(String userId) =>

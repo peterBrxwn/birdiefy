@@ -1,8 +1,12 @@
 // Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:fluttertoast/fluttertoast.dart';
+
+// Project imports:
 import 'package:birdiefy/features/notifications/services/models/notif_msg.dart';
 import 'package:birdiefy/utils/app_theme.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class Notify {
   static void error(BuildContext context, [String? msg]) {

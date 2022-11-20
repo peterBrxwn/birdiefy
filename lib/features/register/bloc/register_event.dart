@@ -55,11 +55,26 @@ class PasswordChanged extends RegisterEvent {
   List<Object> get props => [password];
 }
 
-class Register extends RegisterEvent {}
+class Register extends RegisterEvent {
+  const Register();
 
-class ToggleConfirmPasswordVisibility extends RegisterEvent {}
+  @override
+  List<Object> get props => [];
+}
 
-class TogglePasswordVisibility extends RegisterEvent {}
+class ToggleConfirmPasswordVisibility extends RegisterEvent {
+  const ToggleConfirmPasswordVisibility();
+
+  @override
+  List<Object> get props => [];
+}
+
+class TogglePasswordVisibility extends RegisterEvent {
+  const TogglePasswordVisibility();
+
+  @override
+  List<Object> get props => [];
+}
 
 class UserTypeChanged extends RegisterEvent {
   const UserTypeChanged({required this.type});

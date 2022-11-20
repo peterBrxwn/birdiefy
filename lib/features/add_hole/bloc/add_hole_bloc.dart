@@ -1,12 +1,15 @@
+// Package imports:
+import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+// Project imports:
 import 'package:birdiefy/core/domain/entity/dropdown_params.dart';
 import 'package:birdiefy/features/notifications/services/models/notif_msg.dart';
 import 'package:birdiefy/features/round/domain/entity/round_entity.dart';
 import 'package:birdiefy/features/round/domain/repo.dart';
 import 'package:birdiefy/injection.dart';
-import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'add_hole_event.dart';
 part 'add_hole_state.dart';
@@ -21,8 +24,8 @@ class AddHoleBloc extends Bloc<AddHoleEvent, AddHoleState> {
     on<ScreenHeightChanged>(_screenHeightChanged);
     on<Submit>(_submit);
   }
-  static final _auth = locator<FirebaseAuth>();
-  static final _localData = locator<SharedPreferences>();
+  final _auth = locator<FirebaseAuth>();
+  static final _localStorage = locator<SharedPreferences>();
   final RoundRepo _roundRepo;
 
   void _courseChanged(CourseChanged event, Emitter<AddHoleState> emit) {
@@ -34,7 +37,7 @@ class AddHoleBloc extends Bloc<AddHoleEvent, AddHoleState> {
   }
 
   static AddHoleState _initState() {
-    final courses = _localData.getStringList('courses') ?? [];
+    final courses = _localStorage.getStringList('courses') ?? [];
     final coursesDropdownParams = DropdownParams(
       itemCount: courses.length,
       screenHeight: 0,
@@ -85,11 +88,11 @@ class AddHoleBloc extends Bloc<AddHoleEvent, AddHoleState> {
         (r) => emit(state.copyWith(status: Status.submitSuccess)),
       );
     } catch (e) {
+      final notifMsg = e is String && e.isNotEmpty ? e : 'Something went wrong';
+
       return emit(
         state.copyWith(
-          notifMsg: NotifMsg(
-            message: e is String && e.isNotEmpty ? e : 'Something went wrong',
-          ),
+          notifMsg: NotifMsg(message: notifMsg),
           status: Status.submitError,
         ),
       );

@@ -1,12 +1,15 @@
-import 'package:birdiefy/features/user/domain/entity/user_type.dart';
+// Package imports:
 import 'package:equatable/equatable.dart';
+
+// Project imports:
+import 'package:birdiefy/features/user/domain/entity/user_type.dart';
 
 class User extends Equatable {
   final DateTime dateAdded;
   final String email;
   final String firstname;
   final String handicap;
-  final String? id;
+  final String id;
   final String lastname;
   final UserType userType;
 
@@ -15,9 +18,9 @@ class User extends Equatable {
     required this.email,
     required this.firstname,
     required this.handicap,
+    required this.id,
     required this.lastname,
     required this.userType,
-    this.id,
   });
 
   User copyWith({

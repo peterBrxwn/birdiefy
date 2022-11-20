@@ -11,7 +11,14 @@
 // ignore_for_file: type=lint
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+
+// Flutter imports:
+import 'package:flutter/material.dart' as _i10;
+
+// Package imports:
 import 'package:auto_route/auto_route.dart' as _i9;
+
+// Project imports:
 import 'package:birdiefy/features/add_round/view/view.dart' as _i1;
 import 'package:birdiefy/features/login/view/view.dart' as _i2;
 import 'package:birdiefy/features/page_not_found/view/view.dart' as _i3;
@@ -21,7 +28,6 @@ import 'package:birdiefy/features/tab/view/view.dart' as _i5;
 import 'package:birdiefy/features/user/view/view.dart' as _i8;
 import 'package:birdiefy/features/welcome/view/view.dart' as _i6;
 import 'package:birdiefy/routing/guard.dart' as _i11;
-import 'package:flutter/material.dart' as _i10;
 
 class AppRouter extends _i9.RootStackRouter {
   AppRouter({
@@ -78,7 +84,7 @@ class AppRouter extends _i9.RootStackRouter {
     UserRoute.name: (routeData) {
       return _i9.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i8.UserPage(),
+        child: _i9.WrappedRoute(child: const _i8.UserPage()),
       );
     },
   };

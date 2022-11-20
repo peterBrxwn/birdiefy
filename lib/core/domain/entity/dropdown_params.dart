@@ -1,5 +1,7 @@
+// Package imports:
 import 'package:equatable/equatable.dart';
 
+// used to determine if items in a dropdown list will overflow the screen
 class DropdownParams extends Equatable {
   const DropdownParams({this.itemCount = 0, this.screenHeight = 0});
   final int itemCount;
@@ -25,21 +27,4 @@ class DropdownParams extends Equatable {
 
   @override
   List<Object?> get props => [itemCount, screenHeight];
-}
-
-extension DropdownParamsX on List<DropdownParams> {
-  /// Returns the int in thousands format.
-  List<DropdownParams> updateScreenHeight(double screenHeight) {
-    return map((e) => e.copyWith(screenHeight: screenHeight)).toList();
-  }
-}
-
-extension DropdownParamsY on List<DropdownParams?> {
-  /// Returns the int in thousands format.
-  List<DropdownParams?> updateScreenHeight(double screenHeight) {
-    return map((e) {
-      if (e == null) return e;
-      return e.copyWith(screenHeight: screenHeight);
-    }).toList();
-  }
 }

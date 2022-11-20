@@ -1,4 +1,11 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+// Project imports:
 import 'package:birdiefy/features/add_round/view/view.dart';
 import 'package:birdiefy/features/round/bloc/round_bloc.dart';
 import 'package:birdiefy/features/round/domain/entity/round_entity.dart';
@@ -7,8 +14,6 @@ import 'package:birdiefy/shared/message.dart';
 import 'package:birdiefy/shared/remove_focus.dart';
 import 'package:birdiefy/utils/app_theme.dart';
 import 'package:birdiefy/utils/time_utils.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RoundPage extends StatelessWidget implements AutoRouteWrapper {
   const RoundPage({Key? key}) : super(key: key);
@@ -17,8 +22,10 @@ class RoundPage extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
-      create: (_) =>
-          RoundBloc(roundRepo: context.read<RoundImpl>())..add(const Init()),
+      create: (context) {
+        return RoundBloc(roundRepo: context.read<RoundImpl>())
+          ..add(const Init());
+      },
       child: this,
     );
   }
@@ -56,13 +63,14 @@ class _View extends StatelessWidget {
                   return Column(
                     children: [
                       if (state.rounds.isNotEmpty)
-                      Text(
-                        'Rounds posted',
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              color: AppTheme.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                      ),
+                        Text(
+                          'Rounds posted',
+                          style:
+                              Theme.of(context).textTheme.bodyText1!.copyWith(
+                                    color: AppTheme.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
                       const SizedBox(height: 20),
                       for (final round in state.rounds)
                         _RoundDetails(round: round),
@@ -102,6 +110,7 @@ class _RoundDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final suffix = round.numberOfHoles > 1 ? 's' : '';
+
     return Container(
       decoration: const BoxDecoration(
         color: Colors.black,

@@ -1,11 +1,10 @@
 // Flutter imports:
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:auto_route/auto_route.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
-// import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
@@ -24,11 +23,6 @@ class AppTheme {
   static const themeGreen = Color(0xFF3bb34b);
   static const _themeRed = Color(0xFFFF3636);
   static const _themeWarn = Color(0xFFF7C46C);
-
-  static Color adaptiveGrey(bool isDarkMode) =>
-      !isDarkMode ? notWhite : notBlack;
-  static Color reverseAdaptiveGrey(bool isDarkMode) =>
-      isDarkMode ? notWhite : notBlack;
 
   static final _schemeLight = FlexSchemeColor.from(
     primary: themeGreen,

@@ -1,12 +1,17 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+// Project imports:
 import 'package:birdiefy/features/round/services/repo.dart';
 import 'package:birdiefy/features/user/services/repo.dart';
 import 'package:birdiefy/injection.dart';
-import 'package:birdiefy/routing/router.gr.dart';
 import 'package:birdiefy/routing/observer.dart';
+import 'package:birdiefy/routing/router.gr.dart';
 import 'package:birdiefy/utils/app_theme.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Birdiefy extends StatelessWidget {
   Birdiefy({Key? key}) : super(key: key);
@@ -17,7 +22,7 @@ class Birdiefy extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(create: (_) => RoundImpl()),
-        RepositoryProvider(create: (context) => UserImpl()),
+        RepositoryProvider(create: (_) => UserImpl()),
       ],
       child: MaterialApp.router(
         routeInformationParser: _appRouter.defaultRouteParser(),

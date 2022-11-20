@@ -1,19 +1,25 @@
+// Dart imports:
 import 'dart:async';
 
-import 'package:auto_route/auto_route.dart';
-import 'package:birdiefy/core/domain/constants.dart';
-import 'package:birdiefy/features/login/view/view.dart';
-import 'package:birdiefy/features/notifications/view/view.dart';
-import 'package:birdiefy/features/tab/view/view.dart';
-import 'package:birdiefy/features/user/domain/entity/user_type.dart';
-import 'package:birdiefy/shared/input_decoration.dart';
-import 'package:birdiefy/shared/buttons/loading_button.dart';
-import 'package:birdiefy/shared/remove_focus.dart';
-import 'package:birdiefy/features/register/bloc/register_bloc.dart';
-import 'package:birdiefy/utils/app_theme.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+
+// Project imports:
+import 'package:birdiefy/core/constants.dart';
+import 'package:birdiefy/features/login/view/view.dart';
+import 'package:birdiefy/features/notifications/view/view.dart';
+import 'package:birdiefy/features/register/bloc/register_bloc.dart';
+import 'package:birdiefy/features/tab/view/view.dart';
+import 'package:birdiefy/features/user/domain/entity/user_type.dart';
+import 'package:birdiefy/shared/buttons/loading_button.dart';
+import 'package:birdiefy/shared/input_decoration.dart';
+import 'package:birdiefy/shared/remove_focus.dart';
+import 'package:birdiefy/utils/app_theme.dart';
 
 class RegisterPage extends StatelessWidget implements AutoRouteWrapper {
   const RegisterPage({Key? key}) : super(key: key);
@@ -35,13 +41,13 @@ class RegisterPage extends StatelessWidget implements AutoRouteWrapper {
           state.notifMsg!.message,
         );
       },
-      child:  _View(),
+      child: _View(),
     );
   }
 }
 
 class _View extends StatelessWidget {
-   _View({Key? key}) : super(key: key);
+  _View({Key? key}) : super(key: key);
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -69,7 +75,7 @@ class _View extends StatelessWidget {
                     child: _Form(formKey: _formKey),
                   ),
                   const SizedBox(height: 20),
-                        _SubmitButton(formKey: _formKey),
+                  _SubmitButton(formKey: _formKey),
                   const SizedBox(height: 20),
                   Text(
                     'Have an account already?',
@@ -213,7 +219,7 @@ class _PasswordInput extends StatelessWidget {
                     onPressed: () {
                       context
                           .read<RegisterBloc>()
-                          .add(TogglePasswordVisibility());
+                          .add(const TogglePasswordVisibility());
                     },
                   )
                 : null,
@@ -258,7 +264,7 @@ class _ConfirmPasswordInput extends StatelessWidget {
                     onPressed: () {
                       context
                           .read<RegisterBloc>()
-                          .add(ToggleConfirmPasswordVisibility());
+                          .add(const ToggleConfirmPasswordVisibility());
                     },
                   )
                 : null,
@@ -483,7 +489,7 @@ class _SubmitButtonState extends State<_SubmitButton> {
           controller: _buttonController,
           onPressed: () {
             if (widget.formKey.currentState!.validate()) {
-              return context.read<RegisterBloc>().add(Register());
+              return context.read<RegisterBloc>().add(const Register());
             }
 
             _buttonController.error();

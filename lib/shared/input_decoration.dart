@@ -1,5 +1,8 @@
-import 'package:birdiefy/utils/app_theme.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
+import 'package:birdiefy/utils/app_theme.dart';
 
 class AppInputDecoration extends InputDecoration {
   @override

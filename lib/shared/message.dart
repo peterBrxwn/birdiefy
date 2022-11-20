@@ -1,7 +1,9 @@
 // Flutter imports:
-import 'package:birdiefy/core/domain/ext.dart';
-import 'package:birdiefy/utils/app_theme.dart';
 import 'package:flutter/material.dart';
+
+// Project imports:
+import 'package:birdiefy/core/ext.dart';
+import 'package:birdiefy/utils/app_theme.dart';
 
 // Project imports:
 

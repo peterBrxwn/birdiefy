@@ -1,12 +1,15 @@
+// Package imports:
+import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide User;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+// Project imports:
 import 'package:birdiefy/features/notifications/services/models/notif_msg.dart';
 import 'package:birdiefy/features/user/domain/entity/user_entity.dart';
 import 'package:birdiefy/features/user/domain/entity/user_type.dart';
 import 'package:birdiefy/features/user/services/repo.dart';
 import 'package:birdiefy/injection.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart' hide User;
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';
@@ -24,7 +27,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     on<TogglePasswordVisibility>(_togglePasswordVisibility);
     on<UserTypeChanged>(_userTypeChanged);
   }
-  final _localData = locator<SharedPreferences>();
+  final _localStorage = locator<SharedPreferences>();
 
   void _confirmPasswordChanged(
     ConfirmPasswordChanged event,
@@ -69,8 +72,16 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         password: state.password,
       );
 
-      // send email for verification
+      // // send email for verification
       // await credential.user!.sendEmailVerification();
+      // emit(
+      //   state.copyWith(
+      //     notifMsg: const NotifSuccess(
+      //       message: 'Registration successful. Please check your email for '
+      //           'verification.',
+      //     ),
+      //   ),
+      // );
 
       final user = User(
         dateAdded: DateTime.now(),
@@ -85,7 +96,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       result.fold(
         (l) => throw l.message,
         (r) async {
-          await _localData.setStringList(
+          await _localStorage.setStringList(
             'courses',
             [
               'Golf course 1',
@@ -120,11 +131,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         ),
       );
     } catch (e) {
+      final errorMsg = e is String && e.isNotEmpty ? e : 'Something went wrong';
       return emit(
         state.copyWith(
-          notifMsg: NotifMsg(
-            message: e is String && e.isNotEmpty ? e : 'Something went wrong',
-          ),
+          notifMsg: NotifMsg(message: errorMsg),
           status: Status.submitError,
         ),
       );

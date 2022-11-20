@@ -15,7 +15,12 @@ class EmailChanged extends LoginEvent {
   List<Object> get props => [email];
 }
 
-class Login extends LoginEvent {}
+class Login extends LoginEvent {
+  const Login();
+
+  @override
+  List<Object> get props => [];
+}
 
 class PasswordChanged extends LoginEvent {
   const PasswordChanged({required this.password});
@@ -25,4 +30,9 @@ class PasswordChanged extends LoginEvent {
   List<Object> get props => [password];
 }
 
-class TogglePasswordVisibility extends LoginEvent {}
+class TogglePasswordVisibility extends LoginEvent {
+  const TogglePasswordVisibility();
+
+  @override
+  List<Object> get props => [];
+}

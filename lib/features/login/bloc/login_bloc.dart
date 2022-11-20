@@ -1,12 +1,16 @@
+// Dart imports:
 import 'dart:async';
 
-import 'package:birdiefy/features/notifications/services/models/notif_msg.dart';
-import 'package:birdiefy/features/user/services/repo.dart';
-import 'package:birdiefy/injection.dart';
+// Package imports:
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+// Project imports:
+import 'package:birdiefy/features/notifications/services/models/notif_msg.dart';
+import 'package:birdiefy/features/user/services/repo.dart';
+import 'package:birdiefy/injection.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -18,16 +22,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<PasswordChanged>(_passwordChanged);
     on<TogglePasswordVisibility>(_togglePasswordVisibility);
   }
-  final _localData = locator<SharedPreferences>();
+  final _localStorage = locator<SharedPreferences>();
 
   void _emailChanged(EmailChanged event, Emitter<LoginState> emit) {
     emit(state.copyWith(email: event.email));
   }
 
-  Future<void> _login(
-    Login event,
-    Emitter<LoginState> emit,
-  ) async {
+  Future<void> _login(Login event, Emitter<LoginState> emit) async {
     emit(state.copyWith(status: Status.loading));
 
     try {
@@ -36,14 +37,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         password: state.password,
       );
 
-      // for email verification: uncomment this block of code.
+      // // for email verification: uncomment this block of code.
       // if (!credential.user!.emailVerified) {
+      // // resend email verification
       //   credential.user!.sendEmailVerification();
       //   throw 'Please check your email for verification link.';
       // }
-      final user = await UserImpl.auth(id: credential.user!.uid);
+      final user = await UserImpl.authLogin(id: credential.user!.uid);
       if (user == null) throw '';
-      await _localData.setStringList(
+      await _localStorage.setStringList(
         'courses',
         ['Golf course 1', 'Golf course 2', 'Golf course 3', 'Golf course 4'],
       );

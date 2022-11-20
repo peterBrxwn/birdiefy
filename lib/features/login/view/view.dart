@@ -1,18 +1,24 @@
+// Dart imports:
 import 'dart:async';
 
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:auto_route/auto_route.dart';
-import 'package:birdiefy/core/domain/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
+
+// Project imports:
+import 'package:birdiefy/core/constants.dart';
+import 'package:birdiefy/features/login/bloc/login_bloc.dart';
 import 'package:birdiefy/features/notifications/view/view.dart';
 import 'package:birdiefy/features/register/view/view.dart';
 import 'package:birdiefy/features/tab/view/view.dart';
-import 'package:birdiefy/shared/input_decoration.dart';
 import 'package:birdiefy/shared/buttons/loading_button.dart';
+import 'package:birdiefy/shared/input_decoration.dart';
 import 'package:birdiefy/shared/remove_focus.dart';
-import 'package:birdiefy/features/login/bloc/login_bloc.dart';
 import 'package:birdiefy/utils/app_theme.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class LoginPage extends StatelessWidget implements AutoRouteWrapper {
   const LoginPage({Key? key}) : super(key: key);
@@ -183,7 +189,9 @@ class _PasswordInput extends StatelessWidget {
                       color: Theme.of(context).primaryColor,
                     ),
                     onPressed: () {
-                      context.read<LoginBloc>().add(TogglePasswordVisibility());
+                      context
+                          .read<LoginBloc>()
+                          .add(const TogglePasswordVisibility());
                     },
                   )
                 : null,
@@ -250,7 +258,7 @@ class _SubmitButtonState extends State<_SubmitButton> {
           controller: _buttonController,
           onPressed: () {
             if (widget.formKey.currentState!.validate()) {
-              return context.read<LoginBloc>().add(Login());
+              return context.read<LoginBloc>().add(const Login());
             }
 
             _buttonController.error();

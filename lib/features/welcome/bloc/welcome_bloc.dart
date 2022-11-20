@@ -1,12 +1,17 @@
+// Flutter imports:
+import 'package:flutter/foundation.dart';
+
+// Package imports:
+import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+// Project imports:
 import 'package:birdiefy/core/domain/entity/app_error.dart';
 import 'package:birdiefy/features/login/view/view.dart';
 import 'package:birdiefy/features/tab/view/view.dart';
 import 'package:birdiefy/injection.dart';
-import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'welcome_event.dart';
 part 'welcome_state.dart';
@@ -15,7 +20,7 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
   WelcomeBloc() : super(const WelcomeState()) {
     on<Init>(_init);
   }
-  final _localData = locator<SharedPreferences>();
+  final _localStorage = locator<SharedPreferences>();
 
   Future<void> _init(Init event, Emitter<WelcomeState> emit) async {
     // to showcase the welcome page;
@@ -25,7 +30,7 @@ class WelcomeBloc extends Bloc<WelcomeEvent, WelcomeState> {
       final user = await _getFirebaseUser();
       if (user == null) throw '';
 
-      final userData = _localData.getString('user');
+      final userData = _localStorage.getString('user');
       if (userData == null) throw '';
       emit(
         state.copyWith(

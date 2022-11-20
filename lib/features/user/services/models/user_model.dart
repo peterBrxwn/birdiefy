@@ -1,11 +1,14 @@
-// Package imports:
+// Dart imports:
 import 'dart:convert';
 
+// Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+// Project imports:
 import 'package:birdiefy/features/user/domain/entity/user_entity.dart';
 import 'package:birdiefy/features/user/domain/entity/user_type.dart';
 import 'package:birdiefy/utils/time_utils.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 // Project imports:
 
@@ -22,9 +25,9 @@ class UserModel extends User {
     required String email,
     required String firstname,
     required String handicap,
+    required String id,
     required String lastname,
     required UserType userType,
-    String? id,
   }) : super(
           dateAdded: dateAdded,
           email: email,
@@ -48,14 +51,14 @@ class UserModel extends User {
   ) {
     final json = snapshot.data()!;
     json['id'] = snapshot.id;
-    json['date_added'] =
-        TimeUtils.toDateTime(json['date_added'] as Timestamp).toIso8601String();
+    json[dateAddedJson] = TimeUtils.toDateTime(json[dateAddedJson] as Timestamp)
+        .toIso8601String();
     return _$UserModelFromJson(json);
   }
   Map<String, dynamic> toFirestore() {
     final json = _$UserModelToJson(this);
-    json['date_added'] = TimeUtils.fromDateTime(
-      DateTime.parse(json['date_added'] as String),
+    json[dateAddedJson] = TimeUtils.fromDateTime(
+      DateTime.parse(json[dateAddedJson] as String),
     );
     return json;
   }
@@ -69,4 +72,6 @@ class UserModel extends User {
         lastname: user.lastname,
         userType: user.userType,
       );
+
+  static const dateAddedJson = 'date_added';
 }

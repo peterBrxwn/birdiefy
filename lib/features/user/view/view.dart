@@ -1,6 +1,12 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:auto_route/auto_route.dart';
-import 'package:birdiefy/core/domain/constants.dart';
-import 'package:birdiefy/core/domain/entity/enums.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+// Project imports:
+import 'package:birdiefy/core/constants.dart';
 import 'package:birdiefy/features/login/view/view.dart';
 import 'package:birdiefy/features/user/bloc/user_bloc.dart';
 import 'package:birdiefy/features/user/services/repo.dart';
@@ -9,13 +15,11 @@ import 'package:birdiefy/shared/loading.dart';
 import 'package:birdiefy/shared/message.dart';
 import 'package:birdiefy/shared/remove_focus.dart';
 import 'package:birdiefy/utils/app_theme.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserPage extends StatelessWidget implements AutoRouteWrapper {
   const UserPage({Key? key}) : super(key: key);
 
-  static const routeName = 'round';
+  static const routeName = 'user';
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
@@ -56,7 +60,6 @@ class _View extends StatelessWidget {
           actions: [
             ThemeIconButton(
               icon: Icons.logout_outlined,
-              color: ButtonColorEnum.white,
               onPressed: () {
                 context.read<UserBloc>().add(const Logout());
                 context.router.removeUntil((route) => false);
@@ -119,7 +122,7 @@ class _Header extends StatelessWidget {
                 Container(
                   width: 150,
                   height: 150,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.black,
                     shape: BoxShape.circle,
                     image: DecorationImage(

@@ -1,10 +1,13 @@
-import 'package:birdiefy/routing/guard.dart';
+// Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:birdiefy/routing/router.gr.dart';
-import 'package:birdiefy/services/firebase.service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+// Project imports:
+import 'package:birdiefy/routing/guard.dart';
+import 'package:birdiefy/routing/router.gr.dart';
+import 'package:birdiefy/services/firebase.service.dart';
 
 @module
 abstract class AppModule {

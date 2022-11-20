@@ -1,10 +1,13 @@
+// Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart';
+
+// Project imports:
 import 'package:birdiefy/core/domain/entity/app_error.dart';
-import 'package:birdiefy/core/domain/typedef.dart';
+import 'package:birdiefy/core/typedef.dart';
 import 'package:birdiefy/features/user/domain/entity/user_entity.dart';
 import 'package:birdiefy/features/user/domain/repo.dart';
 import 'package:birdiefy/features/user/services/models/user_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dartz/dartz.dart';
 
 class UserImpl implements UserRepo {
   static CollectionReference<UserModel> _collection() =>
@@ -18,21 +21,21 @@ class UserImpl implements UserRepo {
   @override
   ErrorOrType<String> add(User user) {
     try {
-      _reference(user.id!).set(UserModel.fromEntity(user));
-      return Right(user.id!);
+      _reference(user.id).set(UserModel.fromEntity(user));
+      return Right(user.id);
     } catch (e) {
       return Left(AppError(debugError: e.toString()));
     }
   }
 
-  static Future<User?> auth({required String id}) async {
+  static Future<User?> authLogin({required String id}) async {
     final doc = await _reference(id).get();
     return doc.data();
   }
 
   static Future<ErrorOrType<Unit>> authRegister({required User user}) async {
     try {
-      await _reference(user.id!).set(UserModel.fromEntity(user));
+      await _reference(user.id).set(UserModel.fromEntity(user));
       return const Right(unit);
     } catch (e) {
       return Left(AppError(debugError: e.toString()));

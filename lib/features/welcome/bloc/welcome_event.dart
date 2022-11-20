@@ -7,4 +7,9 @@ abstract class WelcomeEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class Init extends WelcomeEvent {}
+class Init extends WelcomeEvent {
+  const Init();
+
+  @override
+  List<Object> get props => [];
+}

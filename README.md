@@ -1,4 +1,4 @@
-# birdiefy Mobile App
+# Birdiefy Mobile App
 This is the source code for a demo application built using flutter programming language and firebase for the back end.
 It can be compiled for iOS, Android, windows and web platform.
 
@@ -123,10 +123,10 @@ flutter build web
   flutter pub get
 ```
 ```bash
-  flutter build appbundle;
+  flutter build appbundle
 ```
 ```bash
-  flutter build ipa;
+  flutter build ipa
 ```
 
 ### Staging
